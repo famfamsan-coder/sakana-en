@@ -241,109 +241,6 @@
     .topbar { padding: 24px 20px; }
   }
 
-  /* ================ MOBILE ≤ 640px ================ */
-  @media (max-width: 640px) {
-    /* 1. Hide phone block */
-    .topbar-right .phone { display: none; }
-
-    /* Header compact */
-    .topbar { padding: 16px 16px; }
-    .menu-label { display: none; }
-
-    /* 2. Logo sizing */
-    .logo-mark {
-      font-size: 16px;
-      letter-spacing: 0.25em;
-      padding-left: 0.25em;
-    }
-    .logo-sub {
-      font-size: 7px;
-      letter-spacing: 0.25em;
-      white-space: nowrap;
-    }
-
-    /* 3. Hide vertical guests link */
-    .vguests { display: none; }
-
-    /* 4. Hide desktop CTA rail, show mobile left-bottom vertical tabs */
-    .ctas { display: none; }
-    .sns { display: none; }
-    .mobile-ctas {
-      display: flex;
-      flex-direction: row;
-      position: fixed;
-      left: 16px;
-      bottom: 24px;
-      top: auto;
-      right: auto;
-      width: auto;
-      z-index: 30;
-      gap: 4px;
-    }
-    .mobile-ctas a {
-      width: 38px;
-      height: 130px;
-      flex: none;
-      padding: 0;
-      display: flex; align-items: center; justify-content: center;
-      border: none;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      font-family: var(--serif-jp);
-      font-weight: 400;
-      font-size: 12px;
-      letter-spacing: 0.3em;
-      color: var(--ink);
-      background: rgba(11, 20, 25, 0.78);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 2px;
-      transition: background 0.3s ease;
-    }
-    .mobile-ctas a.primary {
-      background: rgba(156, 199, 212, 0.92);
-      color: var(--deep);
-    }
-    .mobile-ctas a + a { border-left: none; }
-    .mobile-ctas a:active { background: rgba(11, 20, 25, 0.92); }
-    .mobile-ctas a.primary:active { background: rgba(156, 199, 212, 1); }
-
-    /* 5. Hide bottombar entirely */
-    .bottombar { display: none; }
-
-    /* 6. Hero sub-copy */
-    .hero-sub {
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      padding: 0 8px;
-    }
-
-    /* 7. Eyebrow */
-    .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
-    .eyebrow .sep { margin: 0 4px; }
-
-    /* 8. Hero title */
-    .hero-title {
-      font-size: clamp(22px, 7.5vw, 32px);
-      letter-spacing: 0.08em;
-      line-height: 1.5;
-    }
-    .hero-title .hero-line { white-space: nowrap; }
-
-    /* Copy positioning */
-    .copy {
-      width: 88%;
-      top: 18%;
-      bottom: auto;
-    }
-  }
-
-  /* ≤ 380px: hide "Since 1974" in eyebrow */
-  @media (max-width: 380px) {
-    .eyebrow .since { display: none; }
-    .eyebrow .sep-since { display: none; }
-  }
-
   .hamburger {
     width: 44px; height: 44px;
     display: grid; place-items: center;
@@ -476,6 +373,12 @@
     transform: translateY(-50%) translateX(0);
     display: flex; flex-direction: column;
     z-index: 16;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .ctas.cta-compact {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(20px);
   }
   .cta {
     width: 56px; height: 240px;
@@ -1049,6 +952,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
+    .ctas, .mobile-ctas { transition: opacity 0.2s ease; }
+    .ctas.cta-compact { transform: translateY(-50%); }
+    .mobile-ctas.cta-compact { transform: none; }
   }
 
   /* ---- Tweaks panel ---- */
@@ -1176,6 +1082,107 @@
   @media (max-width: 1024px) {
     .video-stage { display: none !important; }
     .mobile-bg { display: block; }
+  }
+
+  /* ================ MOBILE ≤ 640px ================ */
+  @media (max-width: 640px) {
+    .topbar-right .phone { display: none; }
+    .topbar { padding: 16px 16px; }
+    .menu-label { display: none; }
+
+    .logo-mark {
+      font-size: 16px;
+      letter-spacing: 0.25em;
+      padding-left: 0.25em;
+    }
+    .logo-sub {
+      font-size: 7px;
+      letter-spacing: 0.25em;
+      white-space: nowrap;
+    }
+
+    .vguests { display: none; }
+    .ctas { display: none; }
+    .sns { display: none; }
+    .bottombar { display: none; }
+
+    .mobile-ctas {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      bottom: 24px;
+      top: auto;
+      right: auto;
+      width: auto;
+      z-index: 30;
+      gap: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform-origin: left bottom;
+    }
+    .mobile-ctas.cta-compact {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-100%);
+    }
+    .mobile-ctas a {
+      width: 38px;
+      height: 120px;
+      flex: none;
+      padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      border: none;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--serif-jp);
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      color: var(--ink);
+      background: rgba(11, 20, 25, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0 2px 2px 0;
+      transition: background 0.3s ease;
+    }
+    .mobile-ctas a + a {
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .mobile-ctas a.primary {
+      background: rgba(156, 199, 212, 0.92);
+      color: var(--deep);
+    }
+    .mobile-ctas a:active { background: rgba(11, 20, 25, 0.92); }
+    .mobile-ctas a.primary:active { background: rgba(156, 199, 212, 1); }
+
+    .hero-sub {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      padding: 0 8px;
+    }
+
+    .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
+    .eyebrow .sep { margin: 0 4px; }
+
+    .hero-title {
+      font-size: clamp(22px, 7.5vw, 32px);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+    }
+    .hero-title .hero-line { white-space: nowrap; }
+
+    .copy {
+      width: 88%;
+      top: 18%;
+      bottom: auto;
+    }
+
+    .nav-english-site { display: list-item; }
+  }
+
+  @media (max-width: 380px) {
+    .eyebrow .since { display: none; }
+    .eyebrow .sep-since { display: none; }
   }
 
 </style>
@@ -1649,6 +1656,25 @@
 
   // 初回ロード時の判定（リロード時にスクロール位置が残っている場合に対応）
   updateTopbar();
+
+  // ============ CTA SCROLL WATCH ============
+  const ctasEl = document.querySelector('.ctas');
+  const mobileCtasEl = document.querySelector('.mobile-ctas');
+  const CTA_THRESHOLD = window.innerHeight * 0.8;
+  let ctaTicking = false;
+
+  function updateCTAs() {
+    const scrolled = window.scrollY > CTA_THRESHOLD;
+    if (ctasEl) ctasEl.classList.toggle('cta-compact', scrolled);
+    if (mobileCtasEl) mobileCtasEl.classList.toggle('cta-compact', scrolled);
+    ctaTicking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ctaTicking) { requestAnimationFrame(updateCTAs); ctaTicking = true; }
+  }, { passive: true });
+
+  updateCTAs();
 
   // ============ VIDEO LAYER (6本シーケンシャル再生) ============
   (function initVideos() {
