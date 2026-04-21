@@ -854,96 +854,21 @@
     flex: 0 0 auto;
     width: 320px;
     margin: 0;
-  }
-  .mq-tile.wide { width: 460px; }
-  .mq-img {
-    width: 100%; height: 220px;
-    position: relative;
     overflow: hidden;
-    transition: transform .5s ease;
-    display: flex; flex-direction: column; justify-content: space-between;
-    padding: 16px;
-    color: rgba(255,255,255,0.9);
   }
-  .mq-tile:hover .mq-img { transform: scale(1.03); }
-  .mq-idx {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em;
-    text-transform: uppercase;
-    align-self: flex-start;
-    padding: 4px 8px;
-    border: 1px solid rgba(255,255,255,0.5);
-    backdrop-filter: blur(4px);
+  .mq-tile img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
   }
-  .mq-label {
-    font-family: var(--serif-jp); font-weight: 400; font-size: 13px;
-    letter-spacing: 0.14em;
-    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
-  }
+  .mq-tile:hover img { transform: scale(1.04); }
   .mq-tile figcaption {
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
     color: rgba(26,33,38,0.45); text-transform: uppercase;
     margin-top: 12px; padding-left: 2px;
   }
-
-  /* placeholder "photo" tones — each tile gets a distinct gradient/pattern so the marquee reads as a photo reel */
-  .tone-river-1 .mq-img { background:
-      radial-gradient(ellipse at 70% 10%, rgba(220,235,240,0.35), transparent 55%),
-      linear-gradient(180deg, #5a97ab 0%, #1e3a45 100%); }
-  .tone-river-2 .mq-img { background:
-      repeating-linear-gradient(100deg, rgba(255,255,255,0.05) 0 30px, transparent 30px 60px),
-      linear-gradient(180deg, #2d5560 0%, #0e2128 100%); }
-  .tone-river-3 .mq-img { background:
-      radial-gradient(circle at 30% 60%, rgba(200,220,225,0.4), transparent 40%),
-      linear-gradient(135deg, #7ea8b4 0%, #2d4550 100%); }
-  .tone-river-4 .mq-img { background:
-      linear-gradient(180deg, rgba(240,240,230,0.6) 0%, transparent 40%),
-      linear-gradient(180deg, #b8c8c0 0%, #4a6660 100%); }
-  .tone-river-5 .mq-img { background:
-      repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0 4px, transparent 4px 10px),
-      linear-gradient(160deg, #3a5560 0%, #14252c 100%); }
-  .tone-river-6 .mq-img { background:
-      radial-gradient(ellipse at 50% 80%, rgba(156,199,212,0.5), transparent 60%),
-      linear-gradient(180deg, #6f9aa6 0%, #2a4048 100%); }
-
-  .tone-grill-1 .mq-img { background:
-      radial-gradient(ellipse at 50% 100%, rgba(255,140,60,0.7), transparent 50%),
-      linear-gradient(180deg, #2a1610 0%, #0e0604 100%); }
-  .tone-grill-2 .mq-img { background:
-      linear-gradient(180deg, rgba(255,200,140,0.25) 0%, transparent 30%),
-      linear-gradient(135deg, #6b3b20 0%, #1a0a05 100%); }
-  .tone-grill-3 .mq-img { background:
-      repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0 3px, transparent 3px 20px),
-      linear-gradient(180deg, #8a5030 0%, #2a1408 100%); }
-  .tone-grill-4 .mq-img { background:
-      radial-gradient(ellipse at 30% 90%, rgba(255,100,30,0.6), transparent 45%),
-      radial-gradient(ellipse at 80% 100%, rgba(255,160,60,0.4), transparent 40%),
-      linear-gradient(180deg, #1a0d06 0%, #050201 100%); }
-  .tone-grill-5 .mq-img { background:
-      linear-gradient(135deg, #7a8848 0%, #3a4420 70%, #1c2410 100%); }
-  .tone-grill-6 .mq-img { background:
-      repeating-linear-gradient(60deg, rgba(255,200,120,0.08) 0 8px, transparent 8px 16px),
-      linear-gradient(180deg, #4a2e18 0%, #150804 100%); }
-
-  .tone-stay-1 .mq-img { background:
-      linear-gradient(180deg, rgba(200,180,140,0.3) 0%, transparent 40%),
-      linear-gradient(160deg, #6e5a40 0%, #2a1e12 100%); }
-  .tone-stay-2 .mq-img { background:
-      repeating-linear-gradient(0deg, rgba(200,170,120,0.15) 0 4px, transparent 4px 12px),
-      linear-gradient(180deg, #8a6f4a 0%, #2e220f 100%); }
-  .tone-stay-3 .mq-img { background:
-      radial-gradient(ellipse at 40% 90%, rgba(255,150,70,0.45), transparent 55%),
-      linear-gradient(180deg, #3a2a1c 0%, #0e0804 100%); }
-  .tone-stay-4 .mq-img { background:
-      linear-gradient(180deg, rgba(160,180,150,0.2) 0%, transparent 50%),
-      linear-gradient(180deg, #3a4e38 0%, #1a2418 100%); }
-  .tone-stay-5 .mq-img { background:
-      linear-gradient(160deg, #d4c9a8 0%, #85795a 70%, #3a3424 100%);
-      color: rgba(40,30,20,0.85); }
-  .tone-stay-5 .mq-idx { border-color: rgba(40,30,20,0.5); }
-  .tone-stay-5 .mq-label { text-shadow: 0 1px 8px rgba(255,255,255,0.3); }
-  .tone-stay-6 .mq-img { background:
-      radial-gradient(circle at 80% 20%, rgba(220,220,255,0.4), transparent 40%),
-      linear-gradient(180deg, #1a2238 0%, #050812 100%); }
 
   @keyframes mqScroll {
     from { transform: translateX(0); }
@@ -1019,9 +944,9 @@
     .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
     .mq-title-en { font-size: 72px; }
     .mq-title-ja { white-space: normal; font-size: 14px; }
-    .mq-tile { width: 220px; }
-    .mq-tile.wide { width: 300px; }
-    .mq-img { height: 140px; padding: 10px; }
+    .mq-tile { width: 260px; }
+    .mq-tile img { height: 180px; }
+    .mq-track { gap: 12px; }
   }
 
   /* Overlay variations */
@@ -1178,6 +1103,15 @@
     }
 
     .nav-english-site { display: list-item; }
+
+    .mq-sections { padding: 80px 0 100px; }
+    .mq-block { padding: 48px 0; }
+    .mq-head { margin-bottom: 40px; }
+    .mq-title-en { font-size: 56px; letter-spacing: 0.04em; }
+    .mq-title-ja { font-size: 12px; letter-spacing: 0.25em; }
+    .mq-body p { font-size: 13px; line-height: 1.9; }
+    .mq-tile { width: 220px; }
+    .mq-tile img { height: 140px; }
   }
 
   @media (max-width: 380px) {
@@ -1368,8 +1302,8 @@
 <!-- =================== MARQUEE SECTIONS =================== -->
 <section class="mq-sections" data-screen-label="03 Experience">
 
-  <!-- 01 · RIVER (釣り) -->
-  <article class="mq-block" data-screen-label="03a River">
+  <!-- 01 · FISHING (釣り) -->
+  <article class="mq-block" data-screen-label="03a Fishing">
     <header class="mq-head reveal">
       <div class="mq-chapter">
         <span class="mq-rule"></span>
@@ -1377,41 +1311,35 @@
         <span class="mq-num">— 01</span>
       </div>
       <div class="mq-title-row">
-        <h3 class="mq-title-en">River<em>.</em></h3>
-        <p class="mq-title-ja">澄んだ水と、一匹の手応え。</p>
+        <h3 class="mq-title-en">Fishing<em>.</em></h3>
+        <p class="mq-title-ja">釣りを愉しむ</p>
       </div>
       <div class="mq-body">
-        <p>千曲川の源流水を引き込んだ18の池と、敷地内を流れる自然渓流。<br/>ビギナーから釣り師まで、一日中遊べる本格フィールド。</p>
+        <p>千曲川の清流で、初心者から上級者まで。<br/>フライ・ルアー・テンカラ、道具のレンタルも完備。</p>
         <a href="#" class="mq-more">Read more <span class="arrow">→</span></a>
       </div>
     </header>
 
-    <div class="marquee-wrapper" data-dir="left" style="--duration: 48s;">
+    <div class="marquee-wrapper" data-dir="left" style="--duration: 45s;">
       <div class="marquee-track">
         <!-- set A -->
-        <figure class="mq-tile tone-river-1"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">池釣り · 初心者エリア</span></div><figcaption>01_Beginner Pond</figcaption></figure>
-        <figure class="mq-tile tone-river-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">渓流 · 上級者フィールド</span></div><figcaption>02_Upper Stream</figcaption></figure>
-        <figure class="mq-tile tone-river-3"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">ニジマス · 銀鱗</span></div><figcaption>03_Rainbow Trout</figcaption></figure>
-        <figure class="mq-tile tone-river-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">朝霧の養殖場</span></div><figcaption>04_Morning Mist</figcaption></figure>
-        <figure class="mq-tile tone-river-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">貸し出し · ロッド&amp;フライ</span></div><figcaption>05_Rental Gear</figcaption></figure>
-        <figure class="mq-tile tone-river-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">子ども釣り場</span></div><figcaption>06_Kids' Pond</figcaption></figure>
-        <figure class="mq-tile tone-river-1 wide"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">千曲川 · 本流</span></div><figcaption>07_Chikuma River</figcaption></figure>
-        <figure class="mq-tile tone-river-2"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">解禁日の朝</span></div><figcaption>08_Opening Day</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-02.png" alt="フライフィッシング道具一式" loading="eager"><figcaption>01_Tackle</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-03.png" alt="親子で釣り体験" loading="eager"><figcaption>02_Family</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-09.png" alt="手に持つニジマス" loading="lazy"><figcaption>03_Rainbow Trout</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-01.png" alt="渓谷の清流" loading="lazy"><figcaption>04_Stream</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-04.png" alt="秋の渓流と木橋" loading="lazy"><figcaption>05_Bridge</figcaption></figure>
         <!-- set B (duplicate for seamless loop) -->
-        <figure class="mq-tile tone-river-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">池釣り · 初心者エリア</span></div><figcaption>01_Beginner Pond</figcaption></figure>
-        <figure class="mq-tile tone-river-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">渓流 · 上級者フィールド</span></div><figcaption>02_Upper Stream</figcaption></figure>
-        <figure class="mq-tile tone-river-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">ニジマス · 銀鱗</span></div><figcaption>03_Rainbow Trout</figcaption></figure>
-        <figure class="mq-tile tone-river-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">朝霧の養殖場</span></div><figcaption>04_Morning Mist</figcaption></figure>
-        <figure class="mq-tile tone-river-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">貸し出し · ロッド&amp;フライ</span></div><figcaption>05_Rental Gear</figcaption></figure>
-        <figure class="mq-tile tone-river-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">子ども釣り場</span></div><figcaption>06_Kids' Pond</figcaption></figure>
-        <figure class="mq-tile tone-river-1 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">千曲川 · 本流</span></div><figcaption>07_Chikuma River</figcaption></figure>
-        <figure class="mq-tile tone-river-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">解禁日の朝</span></div><figcaption>08_Opening Day</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-02.png" alt="" loading="lazy"><figcaption>01_Tackle</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-03.png" alt="" loading="lazy"><figcaption>02_Family</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-09.png" alt="" loading="lazy"><figcaption>03_Rainbow Trout</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-01.png" alt="" loading="lazy"><figcaption>04_Stream</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-04.png" alt="" loading="lazy"><figcaption>05_Bridge</figcaption></figure>
       </div>
     </div>
   </article>
 
-  <!-- 02 · GRILL (バーベキュー) -->
-  <article class="mq-block alt" data-screen-label="03b Grill">
+  <!-- 02 · EAT (食べる) -->
+  <article class="mq-block alt" data-screen-label="03b Eat">
     <header class="mq-head reveal">
       <div class="mq-chapter">
         <span class="mq-rule"></span>
@@ -1419,7 +1347,7 @@
         <span class="mq-num">— 02</span>
       </div>
       <div class="mq-title-row">
-        <h3 class="mq-title-en">Grill<em>.</em></h3>
+        <h3 class="mq-title-en">Eat<em>.</em></h3>
         <p class="mq-title-ja">釣ったその場で、炭火に。</p>
       </div>
       <div class="mq-body">
@@ -1428,31 +1356,26 @@
       </div>
     </header>
 
-    <div class="marquee-wrapper" data-dir="right" style="--duration: 54s;">
+    <div class="marquee-wrapper" data-dir="right" style="--duration: 50s;">
       <div class="marquee-track reverse">
-        <figure class="mq-tile tone-grill-1"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">炭火コンロ · 備長炭</span></div><figcaption>01_Binchotan</figcaption></figure>
-        <figure class="mq-tile tone-grill-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">塩焼き · 串打ち</span></div><figcaption>02_Salt-Grilled</figcaption></figure>
-        <figure class="mq-tile tone-grill-3 wide"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">BBQテラス · 昼</span></div><figcaption>03_Terrace Day</figcaption></figure>
-        <figure class="mq-tile tone-grill-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">夜の炭火</span></div><figcaption>04_Evening Embers</figcaption></figure>
-        <figure class="mq-tile tone-grill-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">地元野菜 · 季節の盛合せ</span></div><figcaption>05_Local Vegetables</figcaption></figure>
-        <figure class="mq-tile tone-grill-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">さばき方レッスン</span></div><figcaption>06_Filleting Class</figcaption></figure>
-        <figure class="mq-tile tone-grill-1"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">地酒 · 千曲錦</span></div><figcaption>07_Local Sake</figcaption></figure>
-        <figure class="mq-tile tone-grill-3"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">団体席 · 最大40名</span></div><figcaption>08_Group Tables</figcaption></figure>
-        <!-- duplicate -->
-        <figure class="mq-tile tone-grill-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">炭火コンロ · 備長炭</span></div><figcaption>01_Binchotan</figcaption></figure>
-        <figure class="mq-tile tone-grill-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">塩焼き · 串打ち</span></div><figcaption>02_Salt-Grilled</figcaption></figure>
-        <figure class="mq-tile tone-grill-3 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">BBQテラス · 昼</span></div><figcaption>03_Terrace Day</figcaption></figure>
-        <figure class="mq-tile tone-grill-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">夜の炭火</span></div><figcaption>04_Evening Embers</figcaption></figure>
-        <figure class="mq-tile tone-grill-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">地元野菜 · 季節の盛合せ</span></div><figcaption>05_Local Vegetables</figcaption></figure>
-        <figure class="mq-tile tone-grill-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">さばき方レッスン</span></div><figcaption>06_Filleting Class</figcaption></figure>
-        <figure class="mq-tile tone-grill-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">地酒 · 千曲錦</span></div><figcaption>07_Local Sake</figcaption></figure>
-        <figure class="mq-tile tone-grill-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">団体席 · 最大40名</span></div><figcaption>08_Group Tables</figcaption></figure>
+        <!-- set A -->
+        <figure class="mq-tile"><img src="/images/sample-05.png" alt="燃える炭火" loading="lazy"><figcaption>01_Charcoal</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-06.png" alt="マスの炭火焼き" loading="lazy"><figcaption>02_Grilled Trout</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-07.png" alt="森の中でBBQ" loading="lazy"><figcaption>03_BBQ</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-08.png" alt="和の器の汁物" loading="lazy"><figcaption>04_Cuisine</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-05.png" alt="炭火クローズアップ" loading="lazy"><figcaption>05_Embers</figcaption></figure>
+        <!-- set B (duplicate for seamless loop) -->
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-05.png" alt="" loading="lazy"><figcaption>01_Charcoal</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-06.png" alt="" loading="lazy"><figcaption>02_Grilled Trout</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-07.png" alt="" loading="lazy"><figcaption>03_BBQ</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-08.png" alt="" loading="lazy"><figcaption>04_Cuisine</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-05.png" alt="" loading="lazy"><figcaption>05_Embers</figcaption></figure>
       </div>
     </div>
   </article>
 
-  <!-- 03 · STAY (宿泊) -->
-  <article class="mq-block" data-screen-label="03c Stay">
+  <!-- 03 · NATURE (自然) -->
+  <article class="mq-block" data-screen-label="03c Nature">
     <header class="mq-head reveal">
       <div class="mq-chapter">
         <span class="mq-rule"></span>
@@ -1460,34 +1383,27 @@
         <span class="mq-num">— 03</span>
       </div>
       <div class="mq-title-row">
-        <h3 class="mq-title-en">Stay<em>.</em></h3>
-        <p class="mq-title-ja">水音とともに、眠る夜。</p>
+        <h3 class="mq-title-en">Nature<em>.</em></h3>
+        <p class="mq-title-ja">千曲川の四季と自然の営み</p>
       </div>
       <div class="mq-body">
-        <p>川沿いのコテージ6棟、林間ヴィラ4棟。全室に薪ストーブと檜の浴室。<br/>翌朝5時、ロッド片手に玄関を出られる、それが贅沢。</p>
+        <p>標高800m、千曲川源流域の豊かな自然に包まれて。<br/>四季折々の渓谷美が、釣りの時間をいっそう深くする。</p>
         <a href="#" class="mq-more">Read more <span class="arrow">→</span></a>
       </div>
     </header>
 
-    <div class="marquee-wrapper" data-dir="left" style="--duration: 42s;">
+    <div class="marquee-wrapper" data-dir="left" style="--duration: 40s;">
       <div class="marquee-track">
-        <figure class="mq-tile tone-stay-1 wide"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">川沿いコテージ</span></div><figcaption>01_Riverside Cottage</figcaption></figure>
-        <figure class="mq-tile tone-stay-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">檜の内風呂</span></div><figcaption>02_Hinoki Bath</figcaption></figure>
-        <figure class="mq-tile tone-stay-3"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">薪ストーブ · 冬</span></div><figcaption>03_Wood Stove</figcaption></figure>
-        <figure class="mq-tile tone-stay-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">林間ヴィラ · デッキ</span></div><figcaption>04_Forest Villa</figcaption></figure>
-        <figure class="mq-tile tone-stay-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">朝食 · 土間</span></div><figcaption>05_Breakfast</figcaption></figure>
-        <figure class="mq-tile tone-stay-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">星空テラス</span></div><figcaption>06_Stargazing</figcaption></figure>
-        <figure class="mq-tile tone-stay-2 wide"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">寝室 · 無垢材</span></div><figcaption>07_Bedroom</figcaption></figure>
-        <figure class="mq-tile tone-stay-3"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">共用棟 · 暖炉</span></div><figcaption>08_Lounge</figcaption></figure>
-        <!-- duplicate -->
-        <figure class="mq-tile tone-stay-1 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">川沿いコテージ</span></div><figcaption>01_Riverside Cottage</figcaption></figure>
-        <figure class="mq-tile tone-stay-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">檜の内風呂</span></div><figcaption>02_Hinoki Bath</figcaption></figure>
-        <figure class="mq-tile tone-stay-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">薪ストーブ · 冬</span></div><figcaption>03_Wood Stove</figcaption></figure>
-        <figure class="mq-tile tone-stay-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">林間ヴィラ · デッキ</span></div><figcaption>04_Forest Villa</figcaption></figure>
-        <figure class="mq-tile tone-stay-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">朝食 · 土間</span></div><figcaption>05_Breakfast</figcaption></figure>
-        <figure class="mq-tile tone-stay-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">星空テラス</span></div><figcaption>06_Stargazing</figcaption></figure>
-        <figure class="mq-tile tone-stay-2 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">寝室 · 無垢材</span></div><figcaption>07_Bedroom</figcaption></figure>
-        <figure class="mq-tile tone-stay-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">共用棟 · 暖炉</span></div><figcaption>08_Lounge</figcaption></figure>
+        <!-- set A -->
+        <figure class="mq-tile"><img src="/images/sample-01.png" alt="渓谷の清流" loading="lazy"><figcaption>01_Stream</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-04.png" alt="秋の渓流と木橋" loading="lazy"><figcaption>02_Autumn Bridge</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-03.png" alt="自然の中で釣り体験" loading="lazy"><figcaption>03_Experience</figcaption></figure>
+        <figure class="mq-tile"><img src="/images/sample-09.png" alt="清流のニジマス" loading="lazy"><figcaption>04_Trout</figcaption></figure>
+        <!-- set B (duplicate for seamless loop) -->
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-01.png" alt="" loading="lazy"><figcaption>01_Stream</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-04.png" alt="" loading="lazy"><figcaption>02_Autumn Bridge</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-03.png" alt="" loading="lazy"><figcaption>03_Experience</figcaption></figure>
+        <figure class="mq-tile" aria-hidden="true"><img src="/images/sample-09.png" alt="" loading="lazy"><figcaption>04_Trout</figcaption></figure>
       </div>
     </div>
   </article>
