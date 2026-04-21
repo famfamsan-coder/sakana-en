@@ -1146,6 +1146,354 @@
     .eyebrow .sep-since { display: none; }
   }
 
+  /* ================ FOOTER ================ */
+  .site-footer {
+    position: relative;
+    background: var(--deep);
+    color: var(--ink);
+    padding: 120px 64px 60px;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-brand {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 60px;
+  }
+
+  .footer-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-logo {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 48px;
+    letter-spacing: 0.45em;
+    padding-left: 0.45em;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .footer-logo-sub {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    padding-left: 0.4em;
+  }
+
+  .footer-tagline {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2.0;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    margin: 0;
+    text-align: right;
+    max-width: 260px;
+  }
+
+  .footer-divider {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .footer-heading {
+    margin: 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .footer-heading .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .footer-heading .ja {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .footer-address {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--ink-dim);
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-contact,
+  .footer-info {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-contact > div,
+  .footer-info > div {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .footer-contact dt,
+  .footer-info dt {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  .footer-contact dd,
+  .footer-info dd {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+
+  .footer-contact dd a {
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+  }
+  .footer-contact dd a:hover { color: var(--accent); }
+
+  .footer-info dd small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-link {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-link:hover { color: var(--ink); }
+
+  .footer-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-menu a {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    position: relative;
+    padding-left: 16px;
+  }
+
+  .footer-menu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 8px;
+    height: 1px;
+    background: var(--ink-faint);
+    transition: all 0.3s ease;
+  }
+
+  .footer-menu a:hover { color: var(--ink); }
+  .footer-menu a:hover::before { width: 12px; background: var(--accent); }
+
+  .footer-social {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-social a:hover { color: var(--accent); }
+
+  .footer-social svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  .footer-social a:hover svg { opacity: 1; }
+
+  .footer-note {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+  }
+
+  .footer-note-body {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .footer-copyright {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .footer-legal a {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--accent); }
+
+  .footer-legal .sep {
+    color: rgba(255,255,255,0.15);
+    font-size: 10px;
+  }
+
+  @media (max-width: 1024px) {
+    .site-footer { padding: 100px 40px 50px; }
+    .footer-brand {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .footer-tagline { text-align: left; max-width: none; }
+    .footer-divider { margin-bottom: 60px; }
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+    .footer-logo { font-size: 40px; }
+  }
+
+  @media (max-width: 640px) {
+    .site-footer { padding: 80px 24px 100px; }
+    .footer-brand { margin-bottom: 48px; gap: 24px; }
+    .footer-logo {
+      font-size: 28px;
+      letter-spacing: 0.35em;
+      padding-left: 0.35em;
+    }
+    .footer-logo-sub { font-size: 9px; letter-spacing: 0.3em; }
+    .footer-tagline { font-size: 14px; letter-spacing: 0.12em; line-height: 1.9; }
+    .footer-divider { margin-bottom: 48px; }
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-heading .en { font-size: 20px; }
+    .footer-heading .ja { font-size: 9px; }
+    .footer-contact > div,
+    .footer-info > div {
+      grid-template-columns: 60px 1fr;
+      gap: 12px;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding-top: 32px;
+    }
+    .footer-legal { gap: 12px; }
+  }
+
 </style>
 </head>
 <body data-overlay="grad" data-copy="a">
@@ -1448,6 +1796,128 @@
 
 </section>
 </div>
+
+<!-- =================== FOOTER =================== -->
+<footer class="site-footer" data-screen-label="Footer">
+
+  <div class="footer-brand">
+    <div class="footer-logo-wrap">
+      <div class="footer-logo">さかな園</div>
+      <div class="footer-logo-sub">SAKANA-EN · Hinode Natural Resort</div>
+    </div>
+    <p class="footer-tagline">
+      太陽と、みどりの園。<br/>
+      大自然にあえる場所。
+    </p>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-grid">
+
+    <div class="footer-col">
+      <h3 class="footer-heading">
+        <span class="en">Access</span>
+        <span class="ja">アクセス</span>
+      </h3>
+      <address class="footer-address">
+        〒190-0181<br/>
+        東京都西多摩郡日の出町<br/>
+        大字大久野3882
+      </address>
+      <dl class="footer-contact">
+        <div>
+          <dt>TEL</dt>
+          <dd><a href="tel:042-597-4911">042-597-4911</a></dd>
+        </div>
+        <div>
+          <dt>FAX</dt>
+          <dd>042-597-4912</dd>
+        </div>
+      </dl>
+      <a href="https://www.google.com/maps/place/%E3%80%92190-0181+%E6%9D%B1%E4%BA%AC%E9%83%BD%E8%A5%BF%E5%A4%9A%E6%91%A9%E9%83%A1%E6%97%A5%E3%81%AE%E5%87%BA%E7%94%BA%E5%A4%A7%E4%B9%85%E9%87%8E3882/@35.7646106,139.205975,17z/"
+         class="footer-link" target="_blank" rel="noopener noreferrer">
+        Google Mapsで見る →
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">
+        <span class="en">Hours</span>
+        <span class="ja">営業情報</span>
+      </h3>
+      <dl class="footer-info">
+        <div>
+          <dt>営業時間</dt>
+          <dd>9:00 — 16:30<br/><small>アクティビティは9:00-16:00</small></dd>
+        </div>
+        <div>
+          <dt>定休日</dt>
+          <dd>毎週火曜日<br/><small>祝日の場合は翌日</small></dd>
+        </div>
+        <div>
+          <dt>駐車場</dt>
+          <dd>無料・100台完備</dd>
+        </div>
+        <div>
+          <dt>決済</dt>
+          <dd>現金のみ</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">
+        <span class="en">Services</span>
+        <span class="ja">サービス</span>
+      </h3>
+      <ul class="footer-menu">
+        <li><a href="#fishing">渓流釣り</a></li>
+        <li><a href="#turibori">釣り堀</a></li>
+        <li><a href="#tukami">つかみ捕り</a></li>
+        <li><a href="#bbq">バーベキュー</a></li>
+        <li><a href="#food">さかな園食堂</a></li>
+        <li><a href="#enkai">宴会・宴席</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3 class="footer-heading">
+        <span class="en">Follow</span>
+        <span class="ja">フォロー</span>
+      </h3>
+      <ul class="footer-social">
+        <li>
+          <a href="https://x.com/hinode_sakanaen" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span>@hinode_sakanaen</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="footer-note">
+        <p class="footer-note-body">
+          自然災害により川釣り・つかみ取りが中止になることがあります。お電話にてお問い合わせください。
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copyright">
+      &copy; 2026 日の出町自然休養村 さかな園
+    </div>
+    <nav class="footer-legal">
+      <a href="#">ご利用規定</a>
+      <span class="sep">/</span>
+      <a href="#">プライバシーポリシー</a>
+    </nav>
+  </div>
+
+</footer>
 
 <!-- =================== FULL-SCREEN MENU =================== -->
 <div class="nav" id="nav" aria-hidden="true">
