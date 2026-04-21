@@ -1,0 +1,1798 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>さかな園 — Sakana-en | 究極のマス釣りリゾート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:        #f3f4f2;            /* soft white */
+    --ink-dim:    rgba(243,244,242,0.72);
+    --ink-faint:  rgba(243,244,242,0.45);
+    --deep:       #0b1419;            /* near-black, cool */
+    --accent:     #9cc7d4;            /* mizuiro 水色 */
+    --accent-deep:#5a97ab;
+    --line:       rgba(243,244,242,0.18);
+    --serif-jp:   "Noto Serif JP", "Hiragino Mincho ProN", serif;
+    --serif-en:   "Cormorant Garamond", "Noto Serif JP", serif;
+    --sans:       "Inter", "Noto Serif JP", system-ui, sans-serif;
+    --mono:       "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--deep); color: var(--ink); font-family: var(--sans); }
+  html { scroll-behavior: smooth; }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  /* ========== HERO ========== */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 680px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* ---- Simulated video layer ---- */
+  .video-stage {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    background: #050a0d;
+  }
+  .video-stage::after {
+    /* filmic grain */
+    content: "";
+    position: absolute; inset: -20%;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: .35;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  /* A rotating stack of "scenes" that simulate a looping facility reel. */
+  .scene {
+    position: absolute; inset: 0;
+    opacity: 0;
+    animation: sceneCycle 24s infinite;
+    will-change: opacity, transform;
+  }
+  .scene:nth-child(1) { animation-delay: 0s; }
+  .scene:nth-child(2) { animation-delay: 6s; }
+  .scene:nth-child(3) { animation-delay: 12s; }
+  .scene:nth-child(4) { animation-delay: 18s; }
+
+  @keyframes sceneCycle {
+    0%   { opacity: 0; transform: scale(1.08); }
+    4%   { opacity: 1; }
+    22%  { opacity: 1; transform: scale(1.0); }
+    27%  { opacity: 0; transform: scale(0.98); }
+    100% { opacity: 0; }
+  }
+
+  /* Scene 1 — river / water ripples */
+  .scene-river {
+    background:
+      radial-gradient(ellipse at 30% 10%, rgba(156,199,212,0.22), transparent 55%),
+      radial-gradient(ellipse at 70% 90%, rgba(10,30,40,0.6), transparent 60%),
+      linear-gradient(180deg, #12303a 0%, #0a1b22 45%, #05121a 100%);
+  }
+  .scene-river .ripple {
+    position: absolute; left: -10%; right: -10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(220,235,240,0.55), transparent);
+    filter: blur(0.8px);
+    animation: drift 9s linear infinite;
+  }
+  .scene-river .ripple:nth-child(1) { top: 38%; animation-duration: 11s; opacity: .6; }
+  .scene-river .ripple:nth-child(2) { top: 52%; animation-duration: 8s; animation-delay: -3s; opacity: .8; }
+  .scene-river .ripple:nth-child(3) { top: 61%; animation-duration: 14s; animation-delay: -5s; opacity: .45; }
+  .scene-river .ripple:nth-child(4) { top: 73%; animation-duration: 10s; animation-delay: -2s; opacity: .7; }
+  .scene-river .ripple:nth-child(5) { top: 84%; animation-duration: 12s; animation-delay: -7s; opacity: .5; }
+  @keyframes drift {
+    0%   { transform: translateX(-8%) scaleY(1); }
+    50%  { transform: translateX(4%)  scaleY(1.4); }
+    100% { transform: translateX(-8%) scaleY(1); }
+  }
+  .scene-river .sun {
+    position: absolute; top: 12%; left: 50%;
+    width: 420px; height: 420px;
+    margin-left: -210px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,246,220,0.45) 0%, rgba(255,246,220,0.08) 40%, transparent 65%);
+    filter: blur(6px);
+  }
+
+  /* Scene 2 — charcoal / BBQ embers */
+  .scene-fire {
+    background:
+      radial-gradient(ellipse at 50% 80%, rgba(255,140,60,0.28), transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(255,80,20,0.5), transparent 45%),
+      linear-gradient(180deg, #130a08 0%, #0a0603 100%);
+  }
+  .scene-fire .ember {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #ffbf7a;
+    box-shadow: 0 0 8px 2px rgba(255,170,80,0.6);
+    bottom: 0;
+    animation: rise 6s linear infinite;
+  }
+  .scene-fire .ember:nth-child(1) { left: 20%; animation-delay: -1s; animation-duration: 5s; }
+  .scene-fire .ember:nth-child(2) { left: 35%; animation-delay: -3s; animation-duration: 7s; }
+  .scene-fire .ember:nth-child(3) { left: 48%; animation-delay: -0.5s; animation-duration: 6s; }
+  .scene-fire .ember:nth-child(4) { left: 58%; animation-delay: -2s; animation-duration: 8s; }
+  .scene-fire .ember:nth-child(5) { left: 72%; animation-delay: -4s; animation-duration: 6.5s; }
+  .scene-fire .ember:nth-child(6) { left: 82%; animation-delay: -1.5s; animation-duration: 5.5s; }
+  .scene-fire .ember:nth-child(7) { left: 28%; animation-delay: -5s; animation-duration: 7.5s; }
+  .scene-fire .ember:nth-child(8) { left: 65%; animation-delay: -3.5s; animation-duration: 6s; }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-90vh) translateX(30px); opacity: 0; }
+  }
+
+  /* Scene 3 — forest mist */
+  .scene-forest {
+    background:
+      linear-gradient(180deg, rgba(100,140,130,0.35) 0%, rgba(15,30,28,0.9) 100%),
+      linear-gradient(180deg, #1a2e28 0%, #0a1714 100%);
+  }
+  .scene-forest .trunk {
+    position: absolute; bottom: 0; top: 20%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(10,18,15,0.9));
+  }
+  .scene-forest .mist {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(220,230,228,0.18), transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(200,220,220,0.12), transparent 55%);
+    animation: mistDrift 18s ease-in-out infinite alternate;
+  }
+  @keyframes mistDrift {
+    0%   { transform: translateX(-3%); }
+    100% { transform: translateX(3%); }
+  }
+
+  /* Scene 4 — trout underwater */
+  .scene-trout {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(180,210,220,0.25), transparent 55%),
+      linear-gradient(180deg, #0e2a34 0%, #061218 100%);
+  }
+  .scene-trout .caustic {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(115deg, transparent 0 40px, rgba(200,230,240,0.06) 40px 42px);
+    animation: caustic 12s linear infinite;
+  }
+  @keyframes caustic {
+    0% { transform: translateX(-40px); }
+    100% { transform: translateX(40px); }
+  }
+  .scene-trout .fish {
+    position: absolute;
+    width: 80px; height: 18px;
+    background: linear-gradient(90deg, rgba(180,200,210,0) 0%, rgba(200,220,225,0.5) 40%, rgba(220,235,240,0.75) 60%, rgba(180,200,210,0) 100%);
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: swim 14s linear infinite;
+  }
+  .scene-trout .fish:nth-child(2) { top: 35%; animation-delay: -2s; }
+  .scene-trout .fish:nth-child(3) { top: 55%; width: 110px; animation-delay: -6s; animation-duration: 18s; opacity: .7; }
+  .scene-trout .fish:nth-child(4) { top: 70%; width: 60px; animation-delay: -9s; animation-duration: 11s; opacity: .5; }
+  @keyframes swim {
+    0%   { transform: translateX(-15vw); }
+    100% { transform: translateX(115vw); }
+  }
+
+  /* ---- Overlay for legibility ---- */
+  .overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 55%, rgba(0,0,0,0.55) 100%),
+      radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.25) 100%);
+    pointer-events: none;
+  }
+
+  /* ---- Top bar ---- */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 32px 40px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    z-index: 50;
+    transition:
+      background 0.4s ease,
+      backdrop-filter 0.4s ease,
+      border-bottom-color 0.4s ease,
+      color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  /* ---- Scrolled state ---- */
+  .topbar.scrolled {
+    background: rgba(244, 245, 241, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: rgba(26, 33, 38, 0.12);
+  }
+  .topbar.scrolled .logo-mark,
+  .topbar.scrolled .phone,
+  .topbar.scrolled .menu-label {
+    color: #1a2126;
+  }
+  .topbar.scrolled .logo-sub,
+  .topbar.scrolled .lang-toggle,
+  .topbar.scrolled .phone small {
+    color: rgba(26, 33, 38, 0.55);
+  }
+  .topbar.scrolled .lang-toggle .active {
+    color: #1a2126;
+  }
+  .topbar.scrolled .hamburger span {
+    background: #1a2126;
+  }
+  @media (max-width: 768px) {
+    .topbar { padding: 24px 20px; }
+  }
+
+  /* ================ MOBILE ≤ 640px ================ */
+  @media (max-width: 640px) {
+    /* 1. Hide phone block */
+    .topbar-right .phone { display: none; }
+
+    /* Header compact */
+    .topbar { padding: 16px 16px; }
+    .menu-label { display: none; }
+
+    /* 2. Logo sizing */
+    .logo-mark {
+      font-size: 16px;
+      letter-spacing: 0.25em;
+      padding-left: 0.25em;
+    }
+    .logo-sub {
+      font-size: 7px;
+      letter-spacing: 0.25em;
+      white-space: nowrap;
+    }
+
+    /* 3. Hide vertical guests link */
+    .vguests { display: none; }
+
+    /* 4. Hide desktop CTA rail, show mobile bottom bar */
+    .ctas { display: none; }
+    .sns { display: none; }
+    .mobile-ctas {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 30;
+    }
+    .mobile-ctas a {
+      flex: 1;
+      height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+    }
+
+    /* 5. Hide bottombar entirely */
+    .bottombar { display: none; }
+
+    /* 6. Hero sub-copy */
+    .hero-sub {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      padding: 0 8px;
+    }
+
+    /* 7. Eyebrow spacing */
+    .eyebrow .sep { margin: 0 4px; }
+
+    /* 8. Hero title */
+    .hero-title {
+      font-size: clamp(26px, 8.5vw, 38px);
+      letter-spacing: 0.04em;
+    }
+    .hero-title .hero-line { white-space: nowrap; }
+
+    /* Copy positioning — account for bottom fixed bar */
+    .copy {
+      width: 92%;
+      top: 18%;
+      bottom: auto;
+    }
+
+    /* Hero needs padding-bottom for mobile-ctas */
+    .hero { padding-bottom: 56px; }
+  }
+
+  /* ≤ 380px: hide "Since 1974" in eyebrow */
+  @media (max-width: 380px) {
+    .eyebrow .since { display: none; }
+    .eyebrow .sep-since { display: none; }
+  }
+
+  .hamburger {
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    position: relative;
+    transition: transform .3s ease;
+  }
+  .hamburger:hover { transform: scale(1.08); }
+  .hamburger span {
+    position: absolute;
+    left: 10px; right: 10px;
+    height: 1.5px; background: var(--ink);
+    transition: transform .35s ease, opacity .25s ease, top .35s ease, background 0.4s ease;
+  }
+  .hamburger span:nth-child(1) { top: 16px; }
+  .hamburger span:nth-child(2) { top: 22px; width: 18px; right: auto; left: 10px; }
+  .hamburger span:nth-child(3) { top: 28px; }
+  .hamburger[aria-expanded="true"] span:nth-child(1) { top: 22px; transform: rotate(45deg); }
+  .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .hamburger[aria-expanded="true"] span:nth-child(3) { top: 22px; transform: rotate(-45deg); }
+
+  .menu-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink-dim);
+    margin-left: 14px;
+    transform: translateY(14px);
+  }
+
+  .logo {
+    text-align: center;
+    line-height: 1;
+  }
+  .logo-mark {
+    display: block;
+    font-family: var(--serif-jp);
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: 0.6em;
+    color: var(--ink);
+    padding-left: 0.6em; /* optical */
+  }
+  .logo-sub {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    color: var(--ink-dim);
+    padding-left: 0.42em;
+    text-transform: uppercase;
+  }
+
+  .topbar-right {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .lang-toggle {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink-dim);
+    display: flex; gap: 10px;
+  }
+  .lang-toggle .active { color: var(--ink); }
+  .lang-toggle .sep { color: var(--ink-faint); }
+  .phone {
+    font-family: var(--serif-en);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+  }
+  .phone small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ---- Vertical rails ---- */
+  .vguests {
+    position: fixed; left: 24px; top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.38em;
+    color: var(--ink-dim);
+    z-index: 15;
+    transition: color .3s ease;
+  }
+  .vguests:hover { color: var(--ink); }
+  .vguests::before {
+    content: "";
+    position: absolute;
+    top: -44px; left: 50%;
+    width: 1px; height: 32px;
+    background: var(--ink-faint);
+  }
+
+  .sns {
+    position: fixed; right: 26px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 22px;
+    z-index: 15;
+  }
+  .sns a {
+    width: 20px; height: 20px;
+    display: grid; place-items: center;
+    color: var(--ink-dim);
+    transition: color .25s ease, transform .25s ease;
+  }
+  .sns a:hover { color: var(--ink); transform: translateY(-2px); }
+  .sns svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.4; }
+  .sns::before, .sns::after {
+    content: ""; height: 40px; width: 1px;
+    background: var(--ink-faint);
+    margin: 0 auto;
+  }
+
+  /* ---- Right CTA column ---- */
+  .ctas {
+    position: fixed; right: 0; top: 50%;
+    transform: translateY(-50%) translateX(0);
+    display: flex; flex-direction: column;
+    z-index: 16;
+  }
+  .cta {
+    width: 56px; height: 240px;
+    writing-mode: vertical-rl;
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 24px 0;
+    background: rgba(11, 20, 25, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    transition: background .3s ease, width .3s ease;
+    position: relative;
+  }
+  .cta:last-child { border-bottom: 1px solid var(--line); }
+  .cta:hover { background: rgba(156, 199, 212, 0.85); color: var(--deep); }
+  .cta .en {
+    font-family: var(--serif-en);
+    font-size: 15px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+  }
+  .cta .jp {
+    font-family: var(--serif-jp);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+  }
+  .cta .dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+    transition: background .3s ease;
+  }
+  .cta:hover .dot { background: var(--deep); }
+  .cta.primary {
+    background: rgba(156, 199, 212, 0.92);
+    color: var(--deep);
+  }
+  .cta.primary .dot { background: var(--deep); }
+  .cta.primary:hover { background: var(--ink); }
+
+  /* ---- Center copy ---- */
+  .copy {
+    position: absolute;
+    left: 50%;
+    top: 22%;
+    bottom: auto;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    width: min(720px, 85vw);
+    opacity: 0;
+    animation: copyIn 1.4s ease-out 0.6s forwards;
+  }
+  @keyframes copyIn {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .eyebrow .sep { color: var(--ink-faint); margin: 0 12px; }
+  .hero-title {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: clamp(30px, 7.2vw, 104px);
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    color: var(--ink);
+    text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+    margin: 0;
+  }
+  .hero-title .accent {
+    font-style: italic;
+    font-family: var(--serif-en);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    font-size: 0.8em;
+    padding: 0 0.1em;
+  }
+  .hero-line {
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .hero-sub {
+    margin-top: 22px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    letter-spacing: 0.38em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+
+  /* ---- Bottom bar ---- */
+  .bottombar {
+    position: absolute; bottom: 0; left: 0; right: 72px;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0 40px 28px 40px;
+    z-index: 12;
+    pointer-events: none;
+  }
+  .bottombar > * { pointer-events: auto; }
+
+  .scroll-cue {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .scroll-cue .line {
+    width: 1px; height: 54px;
+    background: linear-gradient(180deg, var(--ink-faint) 0%, var(--ink) 100%);
+    position: relative; overflow: hidden;
+  }
+  .scroll-cue .line::after {
+    content: ""; position: absolute; top: -40px; left: 0; right: 0;
+    height: 40px; background: var(--accent);
+    animation: scrollPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(94px); }
+  }
+
+  /* ================ FULL-SCREEN MENU ================ */
+  .nav {
+    position: fixed; inset: 0;
+    z-index: 100;
+    background: rgba(8, 16, 20, 0.94);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .5s ease;
+  }
+  .nav.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-inner {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 120px 80px 60px;
+    gap: 80px;
+  }
+  .nav-col h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 0 0 40px 0;
+    font-weight: 400;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .nav-col h4::before {
+    content: ""; display: block; width: 24px; height: 1px; background: var(--accent);
+  }
+  .nav-list { list-style: none; padding: 0; margin: 0; }
+  .nav-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .nav.open .nav-list li { opacity: 1; transform: translateY(0); }
+  .nav.open .nav-list li:nth-child(1) { transition-delay: .15s; }
+  .nav.open .nav-list li:nth-child(2) { transition-delay: .22s; }
+  .nav.open .nav-list li:nth-child(3) { transition-delay: .29s; }
+  .nav.open .nav-list li:nth-child(4) { transition-delay: .36s; }
+  .nav.open .nav-list li:nth-child(5) { transition-delay: .43s; }
+  .nav.open .nav-list li:nth-child(6) { transition-delay: .50s; }
+  .nav.open .nav-list li:nth-child(7) { transition-delay: .57s; }
+  .nav-list a {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 38px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    transition: color .3s ease, padding-left .3s ease;
+  }
+  .nav-list a:hover { color: var(--accent); padding-left: 12px; }
+  .nav-list a .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .nav-list a .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-right: 8px;
+    vertical-align: 4px;
+  }
+
+  .nav-right {
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .nav-card {
+    padding: 32px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 28px;
+    align-items: center;
+    transition: background .3s ease, border-color .3s ease;
+  }
+  .nav-card:hover { background: rgba(156,199,212,0.06); border-color: rgba(156,199,212,0.4); }
+  .nav-card .thumb {
+    width: 96px; height: 96px;
+    background:
+      repeating-linear-gradient(45deg, rgba(156,199,212,0.18) 0 6px, transparent 6px 12px),
+      linear-gradient(135deg, rgba(156,199,212,0.15), rgba(11,20,25,0.6));
+    border: 1px solid var(--line);
+  }
+  .nav-card h5 {
+    margin: 0 0 8px 0;
+    font-family: var(--serif-jp);
+    font-weight: 400;
+    font-size: 17px;
+    letter-spacing: 0.18em;
+  }
+  .nav-card p {
+    margin: 0;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .nav-info {
+    margin-top: auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .nav-info dt {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em;
+    color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .nav-info dd {
+    font-family: var(--serif-jp); font-weight: 300; font-size: 14px;
+    letter-spacing: 0.14em; color: var(--ink); margin: 0;
+  }
+
+  .nav-english-site { display: none; }
+  @media (max-width: 640px) {
+    .nav-english-site { display: list-item; }
+  }
+
+  /* ================ SECTION 2 ================ */
+  .concept {
+    position: relative;
+    padding: 160px 80px 200px;
+    background: #f4f5f1;
+    color: #1a2126;
+  }
+  .concept .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .concept .chapter {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .concept .chapter::before { content: "— "; letter-spacing: 0; }
+  .concept h2 {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: clamp(32px, 4vw, 56px);
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    margin: 0 0 48px 0;
+    color: #1a2126;
+  }
+  .concept h2 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-deep);
+    font-size: 0.75em;
+    letter-spacing: 0.04em;
+  }
+  .concept p {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2.2;
+    letter-spacing: 0.12em;
+    color: #3a4349;
+    max-width: 440px;
+  }
+  .concept .imgpane {
+    aspect-ratio: 4/5;
+    background:
+      repeating-linear-gradient(135deg, rgba(90,151,171,0.08) 0 10px, transparent 10px 20px),
+      linear-gradient(160deg, #cfdde2 0%, #8da9b2 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .imgpane .tag {
+    position: absolute; top: 24px; left: 24px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.85); text-transform: uppercase;
+    padding: 6px 10px; border: 1px solid rgba(255,255,255,0.4);
+  }
+  .imgpane .caption {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.85); text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .concept .stats {
+    margin-top: 56px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(26,33,38,0.15);
+  }
+  .stat .num {
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-size: 42px;
+    letter-spacing: 0.02em;
+    color: var(--accent-deep);
+    line-height: 1;
+  }
+  .stat .num sup { font-size: 16px; margin-left: 2px; }
+  .stat .label {
+    margin-top: 10px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em;
+    color: rgba(26,33,38,0.5); text-transform: uppercase;
+  }
+
+  /* Reveal-on-scroll */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.1s ease, transform 1.1s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ================ MARQUEE SECTIONS ================ */
+  .mq-sections {
+    background: #f4f5f1;
+    color: #1a2126;
+    padding: 40px 0 140px;
+  }
+  .mq-block {
+    padding: 80px 0 0;
+    position: relative;
+  }
+  .mq-block + .mq-block {
+    border-top: 1px solid rgba(26,33,38,0.1);
+    margin-top: 80px;
+  }
+
+  .mq-head {
+    max-width: 1320px;
+    margin: 0 auto 64px;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .mq-chapter {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.35em;
+    color: var(--accent-deep); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mq-chapter .mq-rule {
+    width: 48px; height: 1px; background: var(--accent-deep);
+  }
+  .mq-chapter .mq-num { margin-left: auto; color: rgba(26,33,38,0.45); }
+
+  .mq-title-row {
+    display: flex; align-items: baseline; gap: 32px;
+  }
+  .mq-title-en {
+    margin: 0;
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-size: clamp(72px, 11vw, 168px);
+    letter-spacing: 0.02em;
+    line-height: 0.9;
+    color: #1a2126;
+  }
+  .mq-title-en em {
+    font-style: italic; color: var(--accent-deep);
+    font-size: 0.5em; letter-spacing: 0; vertical-align: 0.35em;
+  }
+  .mq-title-ja {
+    margin: 0 0 16px 0;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    color: rgba(26,33,38,0.7);
+    white-space: nowrap;
+  }
+  .mq-body {
+    padding-bottom: 12px;
+  }
+  .mq-body p {
+    margin: 0 0 24px 0;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2.0;
+    letter-spacing: 0.1em;
+    color: rgba(26,33,38,0.72);
+  }
+  .mq-more {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
+    color: #1a2126; text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease, gap .3s ease, color .3s ease;
+  }
+  .mq-more .arrow { font-family: var(--serif-en); font-size: 14px; transition: transform .3s ease; }
+  .mq-more:hover { color: var(--accent-deep); gap: 20px; border-color: var(--accent-deep); }
+  .mq-more:hover .arrow { transform: translateX(4px); }
+
+  /* ---- marquee ---- */
+  .marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    animation: mqScroll var(--duration, 45s) linear infinite;
+  }
+  .marquee-track.reverse { animation-direction: reverse; }
+  .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
+
+  .mq-tile {
+    flex: 0 0 auto;
+    width: 320px;
+    margin: 0;
+  }
+  .mq-tile.wide { width: 460px; }
+  .mq-img {
+    width: 100%; height: 220px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .5s ease;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 16px;
+    color: rgba(255,255,255,0.9);
+  }
+  .mq-tile:hover .mq-img { transform: scale(1.03); }
+  .mq-idx {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase;
+    align-self: flex-start;
+    padding: 4px 8px;
+    border: 1px solid rgba(255,255,255,0.5);
+    backdrop-filter: blur(4px);
+  }
+  .mq-label {
+    font-family: var(--serif-jp); font-weight: 400; font-size: 13px;
+    letter-spacing: 0.14em;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+  }
+  .mq-tile figcaption {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(26,33,38,0.45); text-transform: uppercase;
+    margin-top: 12px; padding-left: 2px;
+  }
+
+  /* placeholder "photo" tones — each tile gets a distinct gradient/pattern so the marquee reads as a photo reel */
+  .tone-river-1 .mq-img { background:
+      radial-gradient(ellipse at 70% 10%, rgba(220,235,240,0.35), transparent 55%),
+      linear-gradient(180deg, #5a97ab 0%, #1e3a45 100%); }
+  .tone-river-2 .mq-img { background:
+      repeating-linear-gradient(100deg, rgba(255,255,255,0.05) 0 30px, transparent 30px 60px),
+      linear-gradient(180deg, #2d5560 0%, #0e2128 100%); }
+  .tone-river-3 .mq-img { background:
+      radial-gradient(circle at 30% 60%, rgba(200,220,225,0.4), transparent 40%),
+      linear-gradient(135deg, #7ea8b4 0%, #2d4550 100%); }
+  .tone-river-4 .mq-img { background:
+      linear-gradient(180deg, rgba(240,240,230,0.6) 0%, transparent 40%),
+      linear-gradient(180deg, #b8c8c0 0%, #4a6660 100%); }
+  .tone-river-5 .mq-img { background:
+      repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0 4px, transparent 4px 10px),
+      linear-gradient(160deg, #3a5560 0%, #14252c 100%); }
+  .tone-river-6 .mq-img { background:
+      radial-gradient(ellipse at 50% 80%, rgba(156,199,212,0.5), transparent 60%),
+      linear-gradient(180deg, #6f9aa6 0%, #2a4048 100%); }
+
+  .tone-grill-1 .mq-img { background:
+      radial-gradient(ellipse at 50% 100%, rgba(255,140,60,0.7), transparent 50%),
+      linear-gradient(180deg, #2a1610 0%, #0e0604 100%); }
+  .tone-grill-2 .mq-img { background:
+      linear-gradient(180deg, rgba(255,200,140,0.25) 0%, transparent 30%),
+      linear-gradient(135deg, #6b3b20 0%, #1a0a05 100%); }
+  .tone-grill-3 .mq-img { background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0 3px, transparent 3px 20px),
+      linear-gradient(180deg, #8a5030 0%, #2a1408 100%); }
+  .tone-grill-4 .mq-img { background:
+      radial-gradient(ellipse at 30% 90%, rgba(255,100,30,0.6), transparent 45%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,160,60,0.4), transparent 40%),
+      linear-gradient(180deg, #1a0d06 0%, #050201 100%); }
+  .tone-grill-5 .mq-img { background:
+      linear-gradient(135deg, #7a8848 0%, #3a4420 70%, #1c2410 100%); }
+  .tone-grill-6 .mq-img { background:
+      repeating-linear-gradient(60deg, rgba(255,200,120,0.08) 0 8px, transparent 8px 16px),
+      linear-gradient(180deg, #4a2e18 0%, #150804 100%); }
+
+  .tone-stay-1 .mq-img { background:
+      linear-gradient(180deg, rgba(200,180,140,0.3) 0%, transparent 40%),
+      linear-gradient(160deg, #6e5a40 0%, #2a1e12 100%); }
+  .tone-stay-2 .mq-img { background:
+      repeating-linear-gradient(0deg, rgba(200,170,120,0.15) 0 4px, transparent 4px 12px),
+      linear-gradient(180deg, #8a6f4a 0%, #2e220f 100%); }
+  .tone-stay-3 .mq-img { background:
+      radial-gradient(ellipse at 40% 90%, rgba(255,150,70,0.45), transparent 55%),
+      linear-gradient(180deg, #3a2a1c 0%, #0e0804 100%); }
+  .tone-stay-4 .mq-img { background:
+      linear-gradient(180deg, rgba(160,180,150,0.2) 0%, transparent 50%),
+      linear-gradient(180deg, #3a4e38 0%, #1a2418 100%); }
+  .tone-stay-5 .mq-img { background:
+      linear-gradient(160deg, #d4c9a8 0%, #85795a 70%, #3a3424 100%);
+      color: rgba(40,30,20,0.85); }
+  .tone-stay-5 .mq-idx { border-color: rgba(40,30,20,0.5); }
+  .tone-stay-5 .mq-label { text-shadow: 0 1px 8px rgba(255,255,255,0.3); }
+  .tone-stay-6 .mq-img { background:
+      radial-gradient(circle at 80% 20%, rgba(220,220,255,0.4), transparent 40%),
+      linear-gradient(180deg, #1a2238 0%, #050812 100%); }
+
+  @keyframes mqScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 5px)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+
+  /* ---- Tweaks panel ---- */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px;
+    z-index: 200;
+    width: 280px;
+    padding: 16px 18px 18px;
+    background: rgba(15,22,26,0.92);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--ink);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+    display: none;
+  }
+  .tweaks.on { display: block; }
+  .tweaks h6 {
+    margin: 0 0 12px 0;
+    font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--accent);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .tweaks h6 button { color: var(--ink-faint); font-size: 14px; line-height: 1; }
+  .tweaks .row { margin-bottom: 14px; }
+  .tweaks label {
+    display: block;
+    font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 6px;
+  }
+  .tweaks .opts {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+  }
+  .tweaks .opts button {
+    padding: 8px 4px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all .2s ease;
+  }
+  .tweaks .opts button.sel { background: var(--accent); color: var(--deep); border-color: var(--accent); }
+  .tweaks .opts button:hover:not(.sel) { border-color: var(--accent); color: var(--ink); }
+
+  /* ---- Viewport simulator ---- */
+  body[data-viewport="tablet"] .vp-wrap { max-width: 900px; margin: 20px auto; }
+  body[data-viewport="mobile"] .vp-wrap { max-width: 420px; margin: 20px auto; }
+  body[data-viewport="tablet"] .vp-wrap, body[data-viewport="mobile"] .vp-wrap {
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  body[data-viewport="tablet"], body[data-viewport="mobile"] {
+    background: #1a1f23; padding: 0;
+  }
+  body[data-viewport="mobile"] .hero { min-height: 740px; height: 740px; }
+  body[data-viewport="tablet"] .hero { min-height: 700px; height: 820px; }
+
+  /* Mobile layout (viewport simulator) */
+  body[data-viewport="mobile"] .vguests,
+  body[data-viewport="mobile"] .sns,
+  body[data-viewport="mobile"] .ctas,
+  body[data-viewport="mobile"] .topbar-right .phone,
+  body[data-viewport="mobile"] .bottombar,
+  body[data-viewport="mobile"] .menu-label {
+    display: none;
+  }
+  body[data-viewport="mobile"] .topbar { padding: 16px 16px; }
+  body[data-viewport="mobile"] .logo-mark { font-size: 16px; letter-spacing: 0.25em; padding-left: 0.25em; }
+  body[data-viewport="mobile"] .logo-sub { font-size: 7px; letter-spacing: 0.25em; white-space: nowrap; }
+  body[data-viewport="mobile"] .hero-title { font-size: clamp(26px, 8.5vw, 38px); letter-spacing: 0.04em; }
+  body[data-viewport="mobile"] .hero-sub { font-size: 9px; letter-spacing: 0.22em; padding: 0 8px; }
+  body[data-viewport="mobile"] .eyebrow .sep { margin: 0 4px; }
+  body[data-viewport="mobile"] .copy { width: 92%; top: 18%; bottom: auto; }
+  body[data-viewport="mobile"] .mobile-ctas {
+    display: flex;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+  }
+  body[data-viewport="mobile"] .mobile-ctas a {
+    flex: 1; height: 56px; display: flex; align-items: center; justify-content: center;
+    padding: 0; font-size: 13px; letter-spacing: 0.2em;
+  }
+  body[data-viewport="mobile"] .nav-english-site { display: list-item; }
+  body[data-viewport="mobile"] .concept { padding: 80px 24px 120px; }
+  body[data-viewport="mobile"] .concept .grid { grid-template-columns: 1fr; gap: 48px; }
+  body[data-viewport="mobile"] .concept .stats { grid-template-columns: 1fr 1fr; }
+  body[data-viewport="mobile"] .mq-sections { padding: 20px 0 80px; }
+  body[data-viewport="mobile"] .mq-block { padding-top: 48px; }
+  body[data-viewport="mobile"] .mq-block + .mq-block { margin-top: 48px; }
+  body[data-viewport="mobile"] .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+  body[data-viewport="mobile"] .mq-title-en { font-size: 64px; }
+  body[data-viewport="mobile"] .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  body[data-viewport="mobile"] .mq-title-ja { font-size: 14px; white-space: normal; }
+  body[data-viewport="mobile"] .mq-body p { font-size: 13px; line-height: 1.9; }
+  body[data-viewport="mobile"] .mq-tile { width: 220px; }
+  body[data-viewport="mobile"] .mq-tile.wide { width: 300px; }
+  body[data-viewport="mobile"] .mq-img { height: 140px; padding: 10px; }
+  body[data-viewport="mobile"] .mq-label { font-size: 11px; }
+
+  body[data-viewport="tablet"] .mq-head { padding: 0 48px; gap: 48px; }
+  body[data-viewport="tablet"] .mq-title-en { font-size: 110px; }
+  body[data-viewport="tablet"] .mq-tile { width: 260px; }
+  body[data-viewport="tablet"] .mq-tile.wide { width: 380px; }
+  body[data-viewport="tablet"] .mq-img { height: 170px; }
+
+  @media (max-width: 768px) {
+    .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+    .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .mq-title-en { font-size: 72px; }
+    .mq-title-ja { white-space: normal; font-size: 14px; }
+    .mq-tile { width: 220px; }
+    .mq-tile.wide { width: 300px; }
+    .mq-img { height: 140px; padding: 10px; }
+  }
+
+  /* Tablet layout */
+  body[data-viewport="tablet"] .cta { width: 48px; height: 200px; }
+  body[data-viewport="tablet"] .hero-title { font-size: 72px; }
+  body[data-viewport="tablet"] .concept { padding: 120px 48px 160px; }
+  body[data-viewport="tablet"] .concept .grid { gap: 64px; }
+
+  .mobile-ctas {
+    display: none;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    z-index: 20;
+  }
+  .mobile-ctas a {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-family: var(--serif-jp);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--ink);
+    background: rgba(11,20,25,0.7);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+  }
+  .mobile-ctas a.primary { background: rgba(156,199,212,0.95); color: var(--deep); }
+  .mobile-ctas a + a { border-left: 1px solid var(--line); }
+
+  /* Overlay variations */
+  body[data-overlay="soft"] .overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.35) 100%);
+  }
+  body[data-overlay="deep"] .overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.75) 100%),
+                radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0,0,0,0.4) 100%);
+  }
+  body[data-overlay="tint"] .overlay {
+    background: linear-gradient(180deg, rgba(11,20,25,0.35) 0%, rgba(11,20,25,0.1) 50%, rgba(11,20,25,0.7) 100%),
+                linear-gradient(135deg, rgba(156,199,212,0.08), transparent 60%);
+  }
+
+  /* Copy variants */
+  body[data-copy="b"] .hero-title .line1 { display: block; font-size: 0.6em; margin-bottom: 12px; letter-spacing: 0.2em; color: var(--ink-dim); }
+  body[data-copy="c"] .hero-title { font-family: var(--serif-en); font-style: italic; font-weight: 300; letter-spacing: 0.04em; }
+
+  /* ---- Real video layer (6本シーケンシャル) ---- */
+  .video-layer {
+    position: absolute; inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero.has-video .video-layer { opacity: 1; }
+  .hero.has-video .fallback-scenes { display: none; }
+
+  .fallback-scenes { z-index: 1; }
+  .overlay { z-index: 3; }
+
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    will-change: opacity;
+  }
+  .hero-video.active { opacity: 1; }
+
+  /* ---- Mobile/Tablet static background ---- */
+  .mobile-bg {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: #0b1419;
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 55%, rgba(0,0,0,0.5) 100%),
+      url('/images/hero-poster.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (max-width: 1024px) {
+    .video-stage { display: none !important; }
+    .mobile-bg { display: block; }
+  }
+
+</style>
+</head>
+<body data-overlay="grad" data-copy="a">
+
+<!-- =================== HERO =================== -->
+<div class="vp-wrap">
+<section class="hero" data-screen-label="01 Hero">
+
+  <!-- Video background -->
+  <div class="video-stage" aria-label="施設紹介動画: 渓流、炭火、森、ニジマス">
+    <!-- Real video (6本シーケンシャル再生) -->
+    <div class="video-layer">
+      <video class="hero-video active" src="/videos/hero-01.mp4" muted playsinline preload="auto" data-index="0"></video>
+      <video class="hero-video" src="/videos/hero-02.mp4" muted playsinline preload="auto" data-index="1"></video>
+      <video class="hero-video" src="/videos/hero-03.mp4" muted playsinline preload="auto" data-index="2"></video>
+      <video class="hero-video" src="/videos/hero-04.mp4" muted playsinline preload="auto" data-index="3"></video>
+      <video class="hero-video" src="/videos/hero-05.mp4" muted playsinline preload="auto" data-index="4"></video>
+      <video class="hero-video" src="/videos/hero-06.mp4" muted playsinline preload="auto" data-index="5"></video>
+    </div>
+    <!-- Fallback CSS scenes (hidden when video loads) -->
+    <div class="fallback-scenes">
+    <div class="scene scene-river">
+      <div class="sun"></div>
+      <div class="ripple"></div><div class="ripple"></div><div class="ripple"></div>
+      <div class="ripple"></div><div class="ripple"></div>
+    </div>
+    <div class="scene scene-fire">
+      <div class="ember"></div><div class="ember"></div><div class="ember"></div><div class="ember"></div>
+      <div class="ember"></div><div class="ember"></div><div class="ember"></div><div class="ember"></div>
+    </div>
+    <div class="scene scene-forest">
+      <div class="mist"></div>
+      <div class="trunk" style="left:12%;"></div>
+      <div class="trunk" style="left:22%;"></div>
+      <div class="trunk" style="left:36%;"></div>
+      <div class="trunk" style="left:48%;"></div>
+      <div class="trunk" style="left:58%;"></div>
+      <div class="trunk" style="left:72%;"></div>
+      <div class="trunk" style="left:84%;"></div>
+      <div class="trunk" style="left:92%;"></div>
+    </div>
+    <div class="scene scene-trout">
+      <div class="caustic"></div>
+      <div class="fish" style="top:28%;"></div>
+      <div class="fish"></div>
+      <div class="fish"></div>
+      <div class="fish"></div>
+    </div>
+    </div><!-- /.fallback-scenes -->
+  </div>
+
+  <!-- Mobile/Tablet: static poster image (≤1024px) -->
+  <div class="mobile-bg"></div>
+
+  <div class="overlay"></div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div style="display:flex; align-items:flex-start;">
+      <button class="hamburger" id="menuBtn" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="menu-label">MENU — 案内</span>
+    </div>
+
+    <div class="logo">
+      <span class="logo-mark">さかな園</span>
+      <span class="logo-sub">SAKANA-EN · Mountain Trout Park</span>
+    </div>
+
+    <div class="topbar-right">
+      <div class="lang-toggle">
+        <span class="active">JA</span><span class="sep">/</span><span>EN</span>
+      </div>
+      <div class="phone">
+        <small>Reservations</small>
+        0267 — 48 — 2390
+      </div>
+    </div>
+  </header>
+
+  <!-- Left vertical: For International Guests -->
+  <a href="#" class="vguests">For International Guests — English Site</a>
+
+  <!-- Right SNS -->
+  <nav class="sns" aria-label="ソーシャルメディア">
+    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg></a>
+    <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="3"/><path d="M10 9.5l4.5 2.5L10 14.5z" fill="currentColor" stroke="none"/></svg></a>
+    <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 7h2.5V4H14c-2 0-3 1.2-3 3v2H9v3h2v9h3v-9h2.5l.5-3H14V7.5c0-.3.2-.5.5-.5z"/></svg></a>
+  </nav>
+
+  <!-- Right CTA column -->
+  <aside class="ctas" aria-label="予約・お知らせ">
+    <a href="#" class="cta primary">
+      <span class="dot"></span>
+      <span class="en">Reserve</span>
+      <span class="jp">予約</span>
+    </a>
+    <a href="#" class="cta">
+      <span class="dot"></span>
+      <span class="en">News</span>
+      <span class="jp">お知らせ</span>
+    </a>
+  </aside>
+
+  <!-- Center copy -->
+  <div class="copy">
+    <div class="eyebrow">
+      <span>Nagano — Chikuma River</span>
+      <span class="sep">/</span>
+      <span>標高 980m</span>
+      <span class="sep sep-since">/</span>
+      <span class="since">Since 1974</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="hero-line">究極の<span class="accent">Trout</span>釣り</span><br/>
+      <span class="hero-line">バーベキューリゾート</span>
+    </h1>
+    <p class="hero-sub">Catch it. Grill it. Savor it.</p>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="bottombar">
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <span class="line"></span>
+    </div>
+  </div>
+
+  <!-- Mobile-only CTAs -->
+  <div class="mobile-ctas">
+    <a href="#" class="primary">予約</a>
+    <a href="#">お知らせ</a>
+  </div>
+
+</section>
+
+<!-- =================== CONCEPT SECTION (reveal) =================== -->
+<section class="concept" data-screen-label="02 Concept">
+  <div class="grid">
+    <div>
+      <div class="chapter reveal">Chapter 01 / Concept</div>
+      <h2 class="reveal">
+        水の音と<br/>
+        炭の匂いだけが、<br/>
+        <em>the luxury we serve.</em>
+      </h2>
+      <p class="reveal">
+        千曲川上流、標高980メートルの自家養殖場。朝釣り上げたニジマスを、その場で炭火にのせる。それだけの、しかし替えのきかない時間を、半世紀のあいだ守ってきました。
+      </p>
+
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="num">52<sup>年</sup></div>
+          <div class="label">Established 1974</div>
+        </div>
+        <div class="stat">
+          <div class="num">18<sup>池</sup></div>
+          <div class="label">Spring-fed Ponds</div>
+        </div>
+        <div class="stat">
+          <div class="num">980<sup>m</sup></div>
+          <div class="label">Altitude</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="imgpane">
+        <span class="tag">FILE / IMG — 01</span>
+        <div class="caption">
+          <span>施設風景 · 朝の養殖池</span>
+          <span>06:42</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== MARQUEE SECTIONS =================== -->
+<section class="mq-sections" data-screen-label="03 Experience">
+
+  <!-- 01 · RIVER (釣り) -->
+  <article class="mq-block" data-screen-label="03a River">
+    <header class="mq-head reveal">
+      <div class="mq-chapter">
+        <span class="mq-rule"></span>
+        <span>Chapter 02 / Experience</span>
+        <span class="mq-num">— 01</span>
+      </div>
+      <div class="mq-title-row">
+        <h3 class="mq-title-en">River<em>.</em></h3>
+        <p class="mq-title-ja">澄んだ水と、一匹の手応え。</p>
+      </div>
+      <div class="mq-body">
+        <p>千曲川の源流水を引き込んだ18の池と、敷地内を流れる自然渓流。<br/>ビギナーから釣り師まで、一日中遊べる本格フィールド。</p>
+        <a href="#" class="mq-more">Read more <span class="arrow">→</span></a>
+      </div>
+    </header>
+
+    <div class="marquee-wrapper" data-dir="left" style="--duration: 48s;">
+      <div class="marquee-track">
+        <!-- set A -->
+        <figure class="mq-tile tone-river-1"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">池釣り · 初心者エリア</span></div><figcaption>01_Beginner Pond</figcaption></figure>
+        <figure class="mq-tile tone-river-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">渓流 · 上級者フィールド</span></div><figcaption>02_Upper Stream</figcaption></figure>
+        <figure class="mq-tile tone-river-3"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">ニジマス · 銀鱗</span></div><figcaption>03_Rainbow Trout</figcaption></figure>
+        <figure class="mq-tile tone-river-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">朝霧の養殖場</span></div><figcaption>04_Morning Mist</figcaption></figure>
+        <figure class="mq-tile tone-river-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">貸し出し · ロッド&amp;フライ</span></div><figcaption>05_Rental Gear</figcaption></figure>
+        <figure class="mq-tile tone-river-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">子ども釣り場</span></div><figcaption>06_Kids' Pond</figcaption></figure>
+        <figure class="mq-tile tone-river-1 wide"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">千曲川 · 本流</span></div><figcaption>07_Chikuma River</figcaption></figure>
+        <figure class="mq-tile tone-river-2"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">解禁日の朝</span></div><figcaption>08_Opening Day</figcaption></figure>
+        <!-- set B (duplicate for seamless loop) -->
+        <figure class="mq-tile tone-river-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">池釣り · 初心者エリア</span></div><figcaption>01_Beginner Pond</figcaption></figure>
+        <figure class="mq-tile tone-river-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">渓流 · 上級者フィールド</span></div><figcaption>02_Upper Stream</figcaption></figure>
+        <figure class="mq-tile tone-river-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">ニジマス · 銀鱗</span></div><figcaption>03_Rainbow Trout</figcaption></figure>
+        <figure class="mq-tile tone-river-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">朝霧の養殖場</span></div><figcaption>04_Morning Mist</figcaption></figure>
+        <figure class="mq-tile tone-river-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">貸し出し · ロッド&amp;フライ</span></div><figcaption>05_Rental Gear</figcaption></figure>
+        <figure class="mq-tile tone-river-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">子ども釣り場</span></div><figcaption>06_Kids' Pond</figcaption></figure>
+        <figure class="mq-tile tone-river-1 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">千曲川 · 本流</span></div><figcaption>07_Chikuma River</figcaption></figure>
+        <figure class="mq-tile tone-river-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">解禁日の朝</span></div><figcaption>08_Opening Day</figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+  <!-- 02 · GRILL (バーベキュー) -->
+  <article class="mq-block alt" data-screen-label="03b Grill">
+    <header class="mq-head reveal">
+      <div class="mq-chapter">
+        <span class="mq-rule"></span>
+        <span>Chapter 02 / Experience</span>
+        <span class="mq-num">— 02</span>
+      </div>
+      <div class="mq-title-row">
+        <h3 class="mq-title-en">Grill<em>.</em></h3>
+        <p class="mq-title-ja">釣ったその場で、炭火に。</p>
+      </div>
+      <div class="mq-body">
+        <p>屋根付きの炭火エリア全32卓。釣ったマスを自分でさばき、紀州備長炭で焼く。<br/>串、塩、日本酒は受付で。手ぶらでどうぞ。</p>
+        <a href="#" class="mq-more">Read more <span class="arrow">→</span></a>
+      </div>
+    </header>
+
+    <div class="marquee-wrapper" data-dir="right" style="--duration: 54s;">
+      <div class="marquee-track reverse">
+        <figure class="mq-tile tone-grill-1"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">炭火コンロ · 備長炭</span></div><figcaption>01_Binchotan</figcaption></figure>
+        <figure class="mq-tile tone-grill-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">塩焼き · 串打ち</span></div><figcaption>02_Salt-Grilled</figcaption></figure>
+        <figure class="mq-tile tone-grill-3 wide"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">BBQテラス · 昼</span></div><figcaption>03_Terrace Day</figcaption></figure>
+        <figure class="mq-tile tone-grill-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">夜の炭火</span></div><figcaption>04_Evening Embers</figcaption></figure>
+        <figure class="mq-tile tone-grill-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">地元野菜 · 季節の盛合せ</span></div><figcaption>05_Local Vegetables</figcaption></figure>
+        <figure class="mq-tile tone-grill-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">さばき方レッスン</span></div><figcaption>06_Filleting Class</figcaption></figure>
+        <figure class="mq-tile tone-grill-1"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">地酒 · 千曲錦</span></div><figcaption>07_Local Sake</figcaption></figure>
+        <figure class="mq-tile tone-grill-3"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">団体席 · 最大40名</span></div><figcaption>08_Group Tables</figcaption></figure>
+        <!-- duplicate -->
+        <figure class="mq-tile tone-grill-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">炭火コンロ · 備長炭</span></div><figcaption>01_Binchotan</figcaption></figure>
+        <figure class="mq-tile tone-grill-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">塩焼き · 串打ち</span></div><figcaption>02_Salt-Grilled</figcaption></figure>
+        <figure class="mq-tile tone-grill-3 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">BBQテラス · 昼</span></div><figcaption>03_Terrace Day</figcaption></figure>
+        <figure class="mq-tile tone-grill-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">夜の炭火</span></div><figcaption>04_Evening Embers</figcaption></figure>
+        <figure class="mq-tile tone-grill-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">地元野菜 · 季節の盛合せ</span></div><figcaption>05_Local Vegetables</figcaption></figure>
+        <figure class="mq-tile tone-grill-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">さばき方レッスン</span></div><figcaption>06_Filleting Class</figcaption></figure>
+        <figure class="mq-tile tone-grill-1" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">地酒 · 千曲錦</span></div><figcaption>07_Local Sake</figcaption></figure>
+        <figure class="mq-tile tone-grill-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">団体席 · 最大40名</span></div><figcaption>08_Group Tables</figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+  <!-- 03 · STAY (宿泊) -->
+  <article class="mq-block" data-screen-label="03c Stay">
+    <header class="mq-head reveal">
+      <div class="mq-chapter">
+        <span class="mq-rule"></span>
+        <span>Chapter 02 / Experience</span>
+        <span class="mq-num">— 03</span>
+      </div>
+      <div class="mq-title-row">
+        <h3 class="mq-title-en">Stay<em>.</em></h3>
+        <p class="mq-title-ja">水音とともに、眠る夜。</p>
+      </div>
+      <div class="mq-body">
+        <p>川沿いのコテージ6棟、林間ヴィラ4棟。全室に薪ストーブと檜の浴室。<br/>翌朝5時、ロッド片手に玄関を出られる、それが贅沢。</p>
+        <a href="#" class="mq-more">Read more <span class="arrow">→</span></a>
+      </div>
+    </header>
+
+    <div class="marquee-wrapper" data-dir="left" style="--duration: 42s;">
+      <div class="marquee-track">
+        <figure class="mq-tile tone-stay-1 wide"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">川沿いコテージ</span></div><figcaption>01_Riverside Cottage</figcaption></figure>
+        <figure class="mq-tile tone-stay-2"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">檜の内風呂</span></div><figcaption>02_Hinoki Bath</figcaption></figure>
+        <figure class="mq-tile tone-stay-3"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">薪ストーブ · 冬</span></div><figcaption>03_Wood Stove</figcaption></figure>
+        <figure class="mq-tile tone-stay-4"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">林間ヴィラ · デッキ</span></div><figcaption>04_Forest Villa</figcaption></figure>
+        <figure class="mq-tile tone-stay-5"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">朝食 · 土間</span></div><figcaption>05_Breakfast</figcaption></figure>
+        <figure class="mq-tile tone-stay-6"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">星空テラス</span></div><figcaption>06_Stargazing</figcaption></figure>
+        <figure class="mq-tile tone-stay-2 wide"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">寝室 · 無垢材</span></div><figcaption>07_Bedroom</figcaption></figure>
+        <figure class="mq-tile tone-stay-3"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">共用棟 · 暖炉</span></div><figcaption>08_Lounge</figcaption></figure>
+        <!-- duplicate -->
+        <figure class="mq-tile tone-stay-1 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">01</span><span class="mq-label">川沿いコテージ</span></div><figcaption>01_Riverside Cottage</figcaption></figure>
+        <figure class="mq-tile tone-stay-2" aria-hidden="true"><div class="mq-img"><span class="mq-idx">02</span><span class="mq-label">檜の内風呂</span></div><figcaption>02_Hinoki Bath</figcaption></figure>
+        <figure class="mq-tile tone-stay-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">03</span><span class="mq-label">薪ストーブ · 冬</span></div><figcaption>03_Wood Stove</figcaption></figure>
+        <figure class="mq-tile tone-stay-4" aria-hidden="true"><div class="mq-img"><span class="mq-idx">04</span><span class="mq-label">林間ヴィラ · デッキ</span></div><figcaption>04_Forest Villa</figcaption></figure>
+        <figure class="mq-tile tone-stay-5" aria-hidden="true"><div class="mq-img"><span class="mq-idx">05</span><span class="mq-label">朝食 · 土間</span></div><figcaption>05_Breakfast</figcaption></figure>
+        <figure class="mq-tile tone-stay-6" aria-hidden="true"><div class="mq-img"><span class="mq-idx">06</span><span class="mq-label">星空テラス</span></div><figcaption>06_Stargazing</figcaption></figure>
+        <figure class="mq-tile tone-stay-2 wide" aria-hidden="true"><div class="mq-img"><span class="mq-idx">07</span><span class="mq-label">寝室 · 無垢材</span></div><figcaption>07_Bedroom</figcaption></figure>
+        <figure class="mq-tile tone-stay-3" aria-hidden="true"><div class="mq-img"><span class="mq-idx">08</span><span class="mq-label">共用棟 · 暖炉</span></div><figcaption>08_Lounge</figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+</section>
+</div>
+
+<!-- =================== FULL-SCREEN MENU =================== -->
+<div class="nav" id="nav" aria-hidden="true">
+  <div class="nav-inner">
+    <div class="nav-col">
+      <h4>Navigation — 案内</h4>
+      <ul class="nav-list">
+        <li><a href="#"><span><span class="num">01</span>釣り体験</span><span class="en">Fishing</span></a></li>
+        <li><a href="#"><span><span class="num">02</span>バーベキュー</span><span class="en">Charcoal Grill</span></a></li>
+        <li><a href="#"><span><span class="num">03</span>食事処</span><span class="en">Restaurant</span></a></li>
+        <li><a href="#"><span><span class="num">04</span>宿泊</span><span class="en">Lodging</span></a></li>
+        <li><a href="#"><span><span class="num">05</span>アクセス</span><span class="en">Access</span></a></li>
+        <li><a href="#"><span><span class="num">06</span>お問い合わせ</span><span class="en">Contact</span></a></li>
+        <li class="nav-english-site"><a href="#"><span>English Site</span><span class="en">→</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-col nav-right">
+      <div>
+        <h4>Featured — 今月の</h4>
+        <a href="#" class="nav-card">
+          <div class="thumb"></div>
+          <div>
+            <h5>渓流解禁 · 春の朝釣り</h5>
+            <p>March — May · From ¥4,800</p>
+          </div>
+        </a>
+        <a href="#" class="nav-card" style="margin-top:16px;">
+          <div class="thumb" style="background:repeating-linear-gradient(45deg, rgba(255,180,100,0.2) 0 6px, transparent 6px 12px), linear-gradient(135deg, rgba(255,140,60,0.3), rgba(11,20,25,0.6));"></div>
+          <div>
+            <h5>夜の炭火コース</h5>
+            <p>Dinner Course · From ¥6,200</p>
+          </div>
+        </a>
+      </div>
+
+      <dl class="nav-info">
+        <div>
+          <dt>Address</dt>
+          <dd>長野県佐久市<br/>千曲川上流 1974</dd>
+        </div>
+        <div>
+          <dt>Hours</dt>
+          <dd>09:00 — 18:00<br/>定休日 第3火曜</dd>
+        </div>
+        <div>
+          <dt>Reservations</dt>
+          <dd>0267 — 48 — 2390</dd>
+        </div>
+        <div>
+          <dt>Follow</dt>
+          <dd>@sakana.trout</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<!-- =================== TWEAKS =================== -->
+<div class="tweaks" id="tweaks">
+  <h6>Tweaks <button id="closeTweaks" aria-label="close">×</button></h6>
+
+  <div class="row">
+    <label>Viewport</label>
+    <div class="opts" data-key="viewport">
+      <button data-val="desktop" class="sel">Desktop</button>
+      <button data-val="tablet">Tablet</button>
+      <button data-val="mobile">Mobile</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Overlay</label>
+    <div class="opts" data-key="overlay">
+      <button data-val="grad" class="sel">Gradient</button>
+      <button data-val="soft">Soft</button>
+      <button data-val="deep">Deep</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Copy</label>
+    <div class="opts" data-key="copy">
+      <button data-val="a" class="sel">Direct</button>
+      <button data-val="b">Split</button>
+      <button data-val="c">Italic EN</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Open menu</label>
+    <div class="opts">
+      <button id="toggleNavFromTweaks" style="grid-column: span 3;">Toggle Menu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============ DEFAULTS (tweakable, persisted) ============
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "overlay": "grad",
+    "copy": "c",
+    "viewport": "desktop"
+  }/*EDITMODE-END*/;
+
+  function applyTweak(key, val) {
+    if (key === "viewport") {
+      if (val === "desktop") document.body.removeAttribute("data-viewport");
+      else document.body.setAttribute("data-viewport", val);
+    } else {
+      document.body.setAttribute("data-" + key, val);
+    }
+    document.querySelectorAll(`.opts[data-key="${key}"] button`).forEach(b => {
+      b.classList.toggle("sel", b.dataset.val === val);
+    });
+  }
+  Object.entries(TWEAK_DEFAULTS).forEach(([k, v]) => applyTweak(k, v));
+
+  document.querySelectorAll(".opts[data-key]").forEach(group => {
+    const key = group.dataset.key;
+    group.addEventListener("click", e => {
+      const b = e.target.closest("button[data-val]");
+      if (!b) return;
+      applyTweak(key, b.dataset.val);
+      window.parent.postMessage({type: "__edit_mode_set_keys", edits: {[key]: b.dataset.val}}, "*");
+    });
+  });
+
+  // Edit-mode / Tweaks toolbar integration
+  const tweaks = document.getElementById("tweaks");
+  window.addEventListener("message", (e) => {
+    const d = e.data || {};
+    if (d.type === "__activate_edit_mode") tweaks.classList.add("on");
+    if (d.type === "__deactivate_edit_mode") tweaks.classList.remove("on");
+  });
+  document.getElementById("closeTweaks").addEventListener("click", () => {
+    tweaks.classList.remove("on");
+    window.parent.postMessage({type: "__deactivate_edit_mode"}, "*");
+  });
+  window.parent.postMessage({type: "__edit_mode_available"}, "*");
+
+  // ============ MENU ============
+  const menuBtn = document.getElementById("menuBtn");
+  const nav = document.getElementById("nav");
+  function toggleNav(force) {
+    const open = force ?? !nav.classList.contains("open");
+    nav.classList.toggle("open", open);
+    nav.setAttribute("aria-hidden", String(!open));
+    menuBtn.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+  menuBtn.addEventListener("click", () => toggleNav());
+  document.getElementById("toggleNavFromTweaks").addEventListener("click", () => toggleNav());
+  document.addEventListener("keydown", e => { if (e.key === "Escape") toggleNav(false); });
+  nav.addEventListener("click", e => { if (e.target === nav) toggleNav(false); });
+
+  // ============ TOPBAR SCROLL WATCH (THE FARM style) ============
+  const topbar = document.querySelector('.topbar');
+  const TOPBAR_THRESHOLD = 80;
+  let topbarTicking = false;
+
+  function updateTopbar() {
+    if (topbar) {
+      topbar.classList.toggle('scrolled', window.scrollY > TOPBAR_THRESHOLD);
+    }
+    topbarTicking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!topbarTicking) {
+      requestAnimationFrame(updateTopbar);
+      topbarTicking = true;
+    }
+  }, { passive: true });
+
+  // 初回ロード時の判定（リロード時にスクロール位置が残っている場合に対応）
+  updateTopbar();
+
+  // ============ VIDEO LAYER (6本シーケンシャル再生) ============
+  (function initVideos() {
+    var isPCish = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isPCish) {
+      document.querySelectorAll('.hero-video').forEach(function(v) {
+        v.removeAttribute('src');
+        v.load();
+      });
+      return;
+    }
+
+    var hero = document.querySelector('.hero');
+    var videos = Array.from(document.querySelectorAll('.hero-video'));
+    if (videos.length === 0) return;
+
+    var currentIndex = 0;
+    var hasStarted = false;
+
+    function markReady() {
+      if (hasStarted) return;
+      hasStarted = true;
+      hero.classList.add('has-video');
+    }
+
+    function playNext() {
+      var current = videos[currentIndex];
+      var nextIndex = (currentIndex + 1) % videos.length;
+      var next = videos[nextIndex];
+
+      next.currentTime = 0;
+      next.play().catch(function(err) { console.warn('video play blocked:', err); });
+      next.classList.add('active');
+
+      setTimeout(function() {
+        current.classList.remove('active');
+        setTimeout(function() {
+          current.pause();
+          current.currentTime = 0;
+        }, 1500);
+      }, 600);
+
+      currentIndex = nextIndex;
+    }
+
+    videos.forEach(function(v, idx) {
+      v.addEventListener('ended', function() {
+        if (idx === currentIndex) playNext();
+      });
+      v.addEventListener('error', function(e) {
+        console.error('video load error:', v.src, e);
+      });
+    });
+
+    var first = videos[0];
+    function start() {
+      first.play().catch(function(err) { console.warn('initial play blocked:', err); });
+      markReady();
+    }
+
+    if (first.readyState >= 2) {
+      start();
+    } else {
+      first.addEventListener('loadeddata', start, { once: true });
+      first.addEventListener('canplay', start, { once: true });
+    }
+
+    videos.slice(1).forEach(function(v) {
+      if (v.readyState < 2) v.load();
+    });
+  })();
+
+  // ============ REVEAL ON SCROLL ============
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add("in");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
