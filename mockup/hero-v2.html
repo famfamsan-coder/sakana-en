@@ -265,23 +265,48 @@
     /* 3. Hide vertical guests link */
     .vguests { display: none; }
 
-    /* 4. Hide desktop CTA rail, show mobile bottom bar */
+    /* 4. Hide desktop CTA rail, show mobile left-bottom vertical tabs */
     .ctas { display: none; }
     .sns { display: none; }
     .mobile-ctas {
       display: flex;
+      flex-direction: row;
       position: fixed;
-      bottom: 0; left: 0; right: 0;
+      left: 16px;
+      bottom: 24px;
+      top: auto;
+      right: auto;
+      width: auto;
       z-index: 30;
+      gap: 4px;
     }
     .mobile-ctas a {
-      flex: 1;
-      height: 56px;
-      display: flex; align-items: center; justify-content: center;
+      width: 38px;
+      height: 130px;
+      flex: none;
       padding: 0;
-      font-size: 13px;
-      letter-spacing: 0.2em;
+      display: flex; align-items: center; justify-content: center;
+      border: none;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--serif-jp);
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      color: var(--ink);
+      background: rgba(11, 20, 25, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 2px;
+      transition: background 0.3s ease;
     }
+    .mobile-ctas a.primary {
+      background: rgba(156, 199, 212, 0.92);
+      color: var(--deep);
+    }
+    .mobile-ctas a + a { border-left: none; }
+    .mobile-ctas a:active { background: rgba(11, 20, 25, 0.92); }
+    .mobile-ctas a.primary:active { background: rgba(156, 199, 212, 1); }
 
     /* 5. Hide bottombar entirely */
     .bottombar { display: none; }
@@ -289,29 +314,28 @@
     /* 6. Hero sub-copy */
     .hero-sub {
       font-size: 9px;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.3em;
       padding: 0 8px;
     }
 
-    /* 7. Eyebrow spacing */
+    /* 7. Eyebrow */
+    .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
     .eyebrow .sep { margin: 0 4px; }
 
     /* 8. Hero title */
     .hero-title {
-      font-size: clamp(26px, 8.5vw, 38px);
-      letter-spacing: 0.04em;
+      font-size: clamp(22px, 7.5vw, 32px);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
     }
     .hero-title .hero-line { white-space: nowrap; }
 
-    /* Copy positioning — account for bottom fixed bar */
+    /* Copy positioning */
     .copy {
-      width: 92%;
+      width: 88%;
       top: 18%;
       bottom: auto;
     }
-
-    /* Hero needs padding-bottom for mobile-ctas */
-    .hero { padding-bottom: 56px; }
   }
 
   /* ≤ 380px: hide "Since 1974" in eyebrow */
@@ -503,7 +527,7 @@
     transform: translateX(-50%);
     text-align: center;
     z-index: 10;
-    width: min(720px, 85vw);
+    width: min(580px, 72vw);
     opacity: 0;
     animation: copyIn 1.4s ease-out 0.6s forwards;
   }
@@ -513,22 +537,24 @@
   }
   .eyebrow {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 8px;
     letter-spacing: 0.5em;
     color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 28px;
+    margin-bottom: 18px;
+    opacity: 0.75;
   }
   .eyebrow .sep { color: var(--ink-faint); margin: 0 12px; }
   .hero-title {
     font-family: var(--serif-jp);
     font-weight: 300;
-    font-size: clamp(30px, 7.2vw, 104px);
-    letter-spacing: 0.14em;
-    line-height: 1.2;
+    font-size: clamp(24px, 2.8vw, 42px);
+    letter-spacing: 0.18em;
+    line-height: 1.4;
     color: var(--ink);
-    text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
     margin: 0;
+    opacity: 0.95;
   }
   .hero-title .accent {
     font-style: italic;
@@ -544,14 +570,15 @@
     display: inline-block;
   }
   .hero-sub {
-    margin-top: 22px;
+    margin-top: 18px;
     font-family: var(--serif-en);
     font-style: italic;
     font-weight: 300;
-    font-size: 15px;
-    letter-spacing: 0.38em;
+    font-size: 11px;
+    letter-spacing: 0.4em;
     color: var(--ink-dim);
     text-transform: uppercase;
+    opacity: 0.75;
   }
 
   /* ---- Bottom bar ---- */
@@ -1092,18 +1119,30 @@
   body[data-viewport="mobile"] .topbar { padding: 16px 16px; }
   body[data-viewport="mobile"] .logo-mark { font-size: 16px; letter-spacing: 0.25em; padding-left: 0.25em; }
   body[data-viewport="mobile"] .logo-sub { font-size: 7px; letter-spacing: 0.25em; white-space: nowrap; }
-  body[data-viewport="mobile"] .hero-title { font-size: clamp(26px, 8.5vw, 38px); letter-spacing: 0.04em; }
-  body[data-viewport="mobile"] .hero-sub { font-size: 9px; letter-spacing: 0.22em; padding: 0 8px; }
+  body[data-viewport="mobile"] .hero-title { font-size: clamp(22px, 7.5vw, 32px); letter-spacing: 0.08em; line-height: 1.5; }
+  body[data-viewport="mobile"] .hero-sub { font-size: 9px; letter-spacing: 0.3em; padding: 0 8px; }
+  body[data-viewport="mobile"] .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
   body[data-viewport="mobile"] .eyebrow .sep { margin: 0 4px; }
-  body[data-viewport="mobile"] .copy { width: 92%; top: 18%; bottom: auto; }
+  body[data-viewport="mobile"] .copy { width: 88%; top: 18%; bottom: auto; }
   body[data-viewport="mobile"] .mobile-ctas {
-    display: flex;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+    display: flex; flex-direction: row;
+    position: fixed; left: 16px; bottom: 24px;
+    top: auto; right: auto; width: auto;
+    z-index: 30; gap: 4px;
   }
   body[data-viewport="mobile"] .mobile-ctas a {
-    flex: 1; height: 56px; display: flex; align-items: center; justify-content: center;
-    padding: 0; font-size: 13px; letter-spacing: 0.2em;
+    width: 38px; height: 130px; flex: none;
+    padding: 0; display: flex; align-items: center; justify-content: center;
+    border: none; writing-mode: vertical-rl; text-orientation: mixed;
+    font-family: var(--serif-jp); font-weight: 400;
+    font-size: 12px; letter-spacing: 0.3em;
+    color: var(--ink); background: rgba(11,20,25,0.78);
+    backdrop-filter: blur(10px); border-radius: 2px;
   }
+  body[data-viewport="mobile"] .mobile-ctas a.primary {
+    background: rgba(156,199,212,0.92); color: var(--deep);
+  }
+  body[data-viewport="mobile"] .mobile-ctas a + a { border-left: none; }
   body[data-viewport="mobile"] .nav-english-site { display: list-item; }
   body[data-viewport="mobile"] .concept { padding: 80px 24px 120px; }
   body[data-viewport="mobile"] .concept .grid { grid-template-columns: 1fr; gap: 48px; }
