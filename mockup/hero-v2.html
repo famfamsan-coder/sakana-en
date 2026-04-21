@@ -1093,78 +1093,20 @@
   .tweaks .opts button.sel { background: var(--accent); color: var(--deep); border-color: var(--accent); }
   .tweaks .opts button:hover:not(.sel) { border-color: var(--accent); color: var(--ink); }
 
-  /* ---- Viewport simulator ---- */
-  body[data-viewport="tablet"] .vp-wrap { max-width: 900px; margin: 20px auto; }
-  body[data-viewport="mobile"] .vp-wrap { max-width: 420px; margin: 20px auto; }
-  body[data-viewport="tablet"] .vp-wrap, body[data-viewport="mobile"] .vp-wrap {
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.6);
-    overflow: hidden;
-  }
-  body[data-viewport="tablet"], body[data-viewport="mobile"] {
-    background: #1a1f23; padding: 0;
-  }
-  body[data-viewport="mobile"] .hero { min-height: 740px; height: 740px; }
-  body[data-viewport="tablet"] .hero { min-height: 700px; height: 820px; }
-
-  /* Mobile layout (viewport simulator) */
-  body[data-viewport="mobile"] .vguests,
-  body[data-viewport="mobile"] .sns,
-  body[data-viewport="mobile"] .ctas,
-  body[data-viewport="mobile"] .topbar-right .phone,
-  body[data-viewport="mobile"] .bottombar,
-  body[data-viewport="mobile"] .menu-label {
+  /* ---- Mobile CTA base (hidden by default, shown via media query) ---- */
+  .mobile-ctas {
     display: none;
+    z-index: 20;
   }
-  body[data-viewport="mobile"] .topbar { padding: 16px 16px; }
-  body[data-viewport="mobile"] .logo-mark { font-size: 16px; letter-spacing: 0.25em; padding-left: 0.25em; }
-  body[data-viewport="mobile"] .logo-sub { font-size: 7px; letter-spacing: 0.25em; white-space: nowrap; }
-  body[data-viewport="mobile"] .hero-title { font-size: clamp(22px, 7.5vw, 32px); letter-spacing: 0.08em; line-height: 1.5; }
-  body[data-viewport="mobile"] .hero-sub { font-size: 9px; letter-spacing: 0.3em; padding: 0 8px; }
-  body[data-viewport="mobile"] .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
-  body[data-viewport="mobile"] .eyebrow .sep { margin: 0 4px; }
-  body[data-viewport="mobile"] .copy { width: 88%; top: 18%; bottom: auto; }
-  body[data-viewport="mobile"] .mobile-ctas {
-    display: flex; flex-direction: row;
-    position: fixed; left: 16px; bottom: 24px;
-    top: auto; right: auto; width: auto;
-    z-index: 30; gap: 4px;
+  .mobile-ctas a {
+    font-family: var(--serif-jp);
+    font-weight: 400;
+    color: var(--ink);
+    background: rgba(11,20,25,0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
-  body[data-viewport="mobile"] .mobile-ctas a {
-    width: 38px; height: 130px; flex: none;
-    padding: 0; display: flex; align-items: center; justify-content: center;
-    border: none; writing-mode: vertical-rl; text-orientation: mixed;
-    font-family: var(--serif-jp); font-weight: 400;
-    font-size: 12px; letter-spacing: 0.3em;
-    color: var(--ink); background: rgba(11,20,25,0.78);
-    backdrop-filter: blur(10px); border-radius: 2px;
-  }
-  body[data-viewport="mobile"] .mobile-ctas a.primary {
-    background: rgba(156,199,212,0.92); color: var(--deep);
-  }
-  body[data-viewport="mobile"] .mobile-ctas a + a { border-left: none; }
-  body[data-viewport="mobile"] .nav-english-site { display: list-item; }
-  body[data-viewport="mobile"] .concept { padding: 80px 24px 120px; }
-  body[data-viewport="mobile"] .concept .grid { grid-template-columns: 1fr; gap: 48px; }
-  body[data-viewport="mobile"] .concept .stats { grid-template-columns: 1fr 1fr; }
-  body[data-viewport="mobile"] .mq-sections { padding: 20px 0 80px; }
-  body[data-viewport="mobile"] .mq-block { padding-top: 48px; }
-  body[data-viewport="mobile"] .mq-block + .mq-block { margin-top: 48px; }
-  body[data-viewport="mobile"] .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
-  body[data-viewport="mobile"] .mq-title-en { font-size: 64px; }
-  body[data-viewport="mobile"] .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
-  body[data-viewport="mobile"] .mq-title-ja { font-size: 14px; white-space: normal; }
-  body[data-viewport="mobile"] .mq-body p { font-size: 13px; line-height: 1.9; }
-  body[data-viewport="mobile"] .mq-tile { width: 220px; }
-  body[data-viewport="mobile"] .mq-tile.wide { width: 300px; }
-  body[data-viewport="mobile"] .mq-img { height: 140px; padding: 10px; }
-  body[data-viewport="mobile"] .mq-label { font-size: 11px; }
-
-  body[data-viewport="tablet"] .mq-head { padding: 0 48px; gap: 48px; }
-  body[data-viewport="tablet"] .mq-title-en { font-size: 110px; }
-  body[data-viewport="tablet"] .mq-tile { width: 260px; }
-  body[data-viewport="tablet"] .mq-tile.wide { width: 380px; }
-  body[data-viewport="tablet"] .mq-img { height: 170px; }
+  .mobile-ctas a.primary { background: rgba(156,199,212,0.95); color: var(--deep); }
 
   @media (max-width: 768px) {
     .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
@@ -1175,33 +1117,6 @@
     .mq-tile.wide { width: 300px; }
     .mq-img { height: 140px; padding: 10px; }
   }
-
-  /* Tablet layout */
-  body[data-viewport="tablet"] .cta { width: 48px; height: 200px; }
-  body[data-viewport="tablet"] .hero-title { font-size: 72px; }
-  body[data-viewport="tablet"] .concept { padding: 120px 48px 160px; }
-  body[data-viewport="tablet"] .concept .grid { gap: 64px; }
-
-  .mobile-ctas {
-    display: none;
-    position: absolute; bottom: 0; left: 0; right: 0;
-    z-index: 20;
-  }
-  .mobile-ctas a {
-    flex: 1;
-    padding: 20px;
-    text-align: center;
-    font-family: var(--serif-jp);
-    font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 0.3em;
-    color: var(--ink);
-    background: rgba(11,20,25,0.7);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--line);
-  }
-  .mobile-ctas a.primary { background: rgba(156,199,212,0.95); color: var(--deep); }
-  .mobile-ctas a + a { border-left: 1px solid var(--line); }
 
   /* Overlay variations */
   body[data-overlay="soft"] .overlay {
@@ -1635,15 +1550,6 @@
   <h6>Tweaks <button id="closeTweaks" aria-label="close">×</button></h6>
 
   <div class="row">
-    <label>Viewport</label>
-    <div class="opts" data-key="viewport">
-      <button data-val="desktop" class="sel">Desktop</button>
-      <button data-val="tablet">Tablet</button>
-      <button data-val="mobile">Mobile</button>
-    </div>
-  </div>
-
-  <div class="row">
     <label>Overlay</label>
     <div class="opts" data-key="overlay">
       <button data-val="grad" class="sel">Gradient</button>
@@ -1673,17 +1579,11 @@
   // ============ DEFAULTS (tweakable, persisted) ============
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
     "overlay": "grad",
-    "copy": "c",
-    "viewport": "desktop"
+    "copy": "c"
   }/*EDITMODE-END*/;
 
   function applyTweak(key, val) {
-    if (key === "viewport") {
-      if (val === "desktop") document.body.removeAttribute("data-viewport");
-      else document.body.setAttribute("data-viewport", val);
-    } else {
-      document.body.setAttribute("data-" + key, val);
-    }
+    document.body.setAttribute("data-" + key, val);
     document.querySelectorAll(`.opts[data-key="${key}"] button`).forEach(b => {
       b.classList.toggle("sel", b.dataset.val === val);
     });
