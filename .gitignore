@@ -18,7 +18,6 @@ pnpm-debug.log*
 .env.production
 
 # large media files
-public/videos/*.mp4
 
 # synced mockup copy (regenerated via npm run mockup:sync)
 public/mockup/
