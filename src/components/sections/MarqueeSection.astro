@@ -1,0 +1,196 @@
+---
+import type { MarqueeData } from '../../data/marquees';
+
+interface Props {
+  data: MarqueeData;
+  index: number;
+  isAlt?: boolean;
+}
+
+const { data, index, isAlt = false } = Astro.props;
+---
+
+<article class:list={['mq-block', { alt: isAlt }]}>
+  <header class="mq-head reveal">
+    <div class="mq-chapter">
+      <span class="mq-rule"></span>
+      <span>{data.chapterLabel}</span>
+      <span class="mq-num">{data.chapterNum}</span>
+    </div>
+    <div class="mq-title-row">
+      <h3 class="mq-title-en">{data.titleEn}<em>.</em></h3>
+      <p class="mq-title-ja">{data.titleJa}</p>
+    </div>
+    <div class="mq-body">
+      <p set:html={data.description.replace(/\n/g, '<br/>')} />
+      <a href={data.readMoreHref} class="mq-more">{data.readMoreLabel} <span class="arrow">→</span></a>
+    </div>
+  </header>
+
+  <div class="marquee-wrapper" data-dir={data.direction} style={`--duration: ${data.duration};`}>
+    <div class:list={['marquee-track', { reverse: data.direction === 'right' }]}>
+      {data.images.map((img, i) => (
+        <figure class="mq-tile">
+          <img src={img.src} alt={img.alt} loading={index === 0 && i < 2 ? 'eager' : 'lazy'} />
+          <figcaption>{img.caption}</figcaption>
+        </figure>
+      ))}
+      {data.images.map((img) => (
+        <figure class="mq-tile" aria-hidden="true">
+          <img src={img.src} alt="" loading="lazy" />
+          <figcaption>{img.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</article>
+
+<style is:global>
+  .mq-sections {
+    background: #f4f5f1;
+    color: #1a2126;
+    padding: 40px 0 140px;
+  }
+  .mq-block {
+    padding: 80px 0 0;
+    position: relative;
+  }
+  .mq-block + .mq-block {
+    border-top: 1px solid rgba(26,33,38,0.1);
+    margin-top: 80px;
+  }
+
+  .mq-head {
+    max-width: 1320px;
+    margin: 0 auto 64px;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .mq-chapter {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.35em;
+    color: var(--accent-deep); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mq-chapter .mq-rule {
+    width: 48px; height: 1px; background: var(--accent-deep);
+  }
+  .mq-chapter .mq-num { margin-left: auto; color: rgba(26,33,38,0.45); }
+
+  .mq-title-row {
+    display: flex; align-items: baseline; gap: 32px;
+  }
+  .mq-title-en {
+    margin: 0;
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-size: clamp(72px, 11vw, 168px);
+    letter-spacing: 0.02em;
+    line-height: 0.9;
+    color: #1a2126;
+  }
+  .mq-title-en em {
+    font-style: italic; color: var(--accent-deep);
+    font-size: 0.5em; letter-spacing: 0; vertical-align: 0.35em;
+  }
+  .mq-title-ja {
+    margin: 0 0 16px 0;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    color: rgba(26,33,38,0.7);
+    white-space: nowrap;
+  }
+  .mq-body {
+    padding-bottom: 12px;
+  }
+  .mq-body p {
+    margin: 0 0 24px 0;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2.0;
+    letter-spacing: 0.1em;
+    color: rgba(26,33,38,0.72);
+  }
+  .mq-more {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
+    color: #1a2126; text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease, gap .3s ease, color .3s ease;
+  }
+  .mq-more .arrow { font-family: var(--serif-en); font-size: 14px; transition: transform .3s ease; }
+  .mq-more:hover { color: var(--accent-deep); gap: 20px; border-color: var(--accent-deep); }
+  .mq-more:hover .arrow { transform: translateX(4px); }
+
+  .marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    animation: mqScroll var(--duration, 45s) linear infinite;
+  }
+  .marquee-track.reverse { animation-direction: reverse; }
+  .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
+
+  .mq-tile {
+    flex: 0 0 auto;
+    width: 320px;
+    margin: 0;
+    overflow: hidden;
+  }
+  .mq-tile img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .mq-tile:hover img { transform: scale(1.04); }
+  .mq-tile figcaption {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(26,33,38,0.45); text-transform: uppercase;
+    margin-top: 12px; padding-left: 2px;
+  }
+
+  @keyframes mqScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 5px)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+
+  @media (max-width: 768px) {
+    .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+    .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .mq-title-en { font-size: 72px; }
+    .mq-title-ja { white-space: normal; font-size: 14px; }
+    .mq-tile { width: 260px; }
+    .mq-tile img { height: 180px; }
+  }
+
+  @media (max-width: 640px) {
+    .mq-sections { padding: 80px 0 100px; }
+    .mq-block { padding: 48px 0; }
+    .mq-head { margin-bottom: 40px; }
+    .mq-title-en { font-size: 56px; letter-spacing: 0.04em; }
+    .mq-title-ja { font-size: 12px; letter-spacing: 0.25em; }
+    .mq-body p { font-size: 13px; line-height: 1.9; }
+    .mq-tile { width: 220px; }
+    .mq-tile img { height: 140px; }
+  }
+</style>

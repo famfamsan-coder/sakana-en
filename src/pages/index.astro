@@ -3,10 +3,23 @@ import Layout from '../layouts/Layout.astro';
 import TopBar from '../components/layout/TopBar.astro';
 import SideMenu from '../components/layout/SideMenu.astro';
 import Hero from '../components/hero/Hero.astro';
+import ConceptSection from '../components/sections/ConceptSection.astro';
+import InfoStrip from '../components/sections/InfoStrip.astro';
+import MarqueeSection from '../components/sections/MarqueeSection.astro';
+import { marquees } from '../data/marquees';
 ---
 
 <Layout title="さかな園 | 東京・日の出町自然休養村 - 渓流釣り、BBQ、お食事">
   <TopBar />
-  <Hero />
+  <section class="hero-wrap">
+    <Hero />
+  </section>
+  <ConceptSection />
+  <InfoStrip />
+  <section class="mq-sections">
+    {marquees.map((mq, i) => (
+      <MarqueeSection data={mq} index={i} isAlt={i % 2 === 1} />
+    ))}
+  </section>
   <SideMenu />
 </Layout>

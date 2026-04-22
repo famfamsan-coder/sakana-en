@@ -1,0 +1,43 @@
+---
+import { facility } from '../../data/facility';
+---
+
+<div class="info-strip reveal">
+  <span>営業時間 {facility.hours.open} — {facility.hours.close}</span>
+  <span class="sep">/</span>
+  <span>火曜定休</span>
+  <span class="sep">/</span>
+  <span>駐車場無料 100台</span>
+  <span class="sep">/</span>
+  <span>{facility.payment}</span>
+</div>
+
+<style is:global>
+  .info-strip {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    background: #f4f5f1;
+  }
+  .info-strip .sep {
+    color: var(--ink-faint);
+  }
+
+  @media (max-width: 640px) {
+    .info-strip {
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    .info-strip .sep {
+      display: none;
+    }
+  }
+</style>

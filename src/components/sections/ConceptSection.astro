@@ -1,0 +1,136 @@
+---
+import { facility } from '../../data/facility';
+---
+
+<section class="concept">
+  <div class="grid">
+    <div>
+      <div class="chapter reveal">Chapter 01 / Concept</div>
+      <h2 class="reveal">
+        東京の西、日の出町に<br/>
+        太陽とみどりの<br/>
+        <em>natural resort.</em>
+      </h2>
+      <p class="reveal">
+        東京都西多摩郡日の出町、平井川のほとり。自然休養村として認定されたこの地で、渓流釣り、つかみ捕り、バーベキューなど、自然と触れ合う体験をお楽しみいただけます。初心者でも安心、竿もエサも手ぶらでどうぞ。
+      </p>
+
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="num">100<sup>台</sup></div>
+          <div class="label">Free Parking</div>
+        </div>
+        <div class="stat">
+          <div class="num">50<sup>名</sup></div>
+          <div class="label">Banquet Hall</div>
+        </div>
+        <div class="stat">
+          <div class="num">9:00<sup>—</sup></div>
+          <div class="label">Open Daily</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="imgpane">
+        <span class="tag">FILE / IMG — 01</span>
+        <div class="caption">
+          <span>施設風景 · 平井川のほとり</span>
+          <span>06:42</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .concept {
+    position: relative;
+    padding: 160px 80px 200px;
+    background: #f4f5f1;
+    color: #1a2126;
+  }
+  .concept .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .concept .chapter {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .concept .chapter::before { content: "— "; letter-spacing: 0; }
+  .concept h2 {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: clamp(32px, 4vw, 56px);
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    margin: 0 0 48px 0;
+    color: #1a2126;
+  }
+  .concept h2 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-deep);
+    font-size: 0.75em;
+    letter-spacing: 0.04em;
+  }
+  .concept p {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2.2;
+    letter-spacing: 0.12em;
+    color: #3a4349;
+    max-width: 440px;
+  }
+  .concept .imgpane {
+    aspect-ratio: 4/5;
+    background:
+      repeating-linear-gradient(135deg, rgba(90,151,171,0.08) 0 10px, transparent 10px 20px),
+      linear-gradient(160deg, #cfdde2 0%, #8da9b2 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .imgpane .tag {
+    position: absolute; top: 24px; left: 24px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.85); text-transform: uppercase;
+    padding: 6px 10px; border: 1px solid rgba(255,255,255,0.4);
+  }
+  .imgpane .caption {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.85); text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .concept .stats {
+    margin-top: 56px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(26,33,38,0.15);
+  }
+  .stat .num {
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-size: 42px;
+    letter-spacing: 0.02em;
+    color: var(--accent-deep);
+    line-height: 1;
+  }
+  .stat .num sup { font-size: 16px; margin-left: 2px; }
+  .stat .label {
+    margin-top: 10px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em;
+    color: rgba(26,33,38,0.5); text-transform: uppercase;
+  }
+</style>
