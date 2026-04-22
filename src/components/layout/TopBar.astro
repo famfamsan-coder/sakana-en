@@ -140,6 +140,29 @@ import { facility } from '../../data/facility';
     color: var(--ink-faint); margin-bottom: 2px; text-transform: uppercase;
   }
 
+  @media (max-width: 1024px) {
+    .topbar:not(.scrolled) .logo-mark {
+      color: #1a2126;
+      text-shadow: 0 1px 3px rgba(255,255,255,0.5);
+    }
+    .topbar:not(.scrolled) .logo-sub {
+      color: rgba(26, 33, 38, 0.6);
+      text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+    }
+    .topbar:not(.scrolled) .hamburger span {
+      background: #1a2126;
+    }
+    .topbar:not(.scrolled) .menu-label {
+      color: rgba(26, 33, 38, 0.7);
+    }
+    .topbar:not(.scrolled) .lang-toggle {
+      color: rgba(26, 33, 38, 0.6);
+    }
+    .topbar:not(.scrolled) .lang-toggle .active {
+      color: #1a2126;
+    }
+  }
+
   @media (max-width: 640px) {
     .topbar-right .phone { display: none; }
     .topbar { padding: 16px 16px; }
