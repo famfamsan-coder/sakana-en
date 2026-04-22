@@ -21,7 +21,7 @@ import { facility } from '../../data/facility';
   .copy {
     position: absolute;
     left: 50%;
-    top: 22%;
+    top: 16%;
     bottom: auto;
     transform: translateX(-50%);
     text-align: center;
@@ -42,6 +42,7 @@ import { facility } from '../../data/facility';
     text-transform: uppercase;
     margin-bottom: 18px;
     opacity: 0.75;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
   .eyebrow .sep { color: var(--ink-faint); margin: 0 12px; }
   .hero-title {
@@ -51,7 +52,10 @@ import { facility } from '../../data/facility';
     letter-spacing: 0.18em;
     line-height: 1.4;
     color: var(--ink);
-    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    text-shadow:
+      0 1px 2px rgba(0,0,0,0.6),
+      0 2px 8px rgba(0,0,0,0.5),
+      0 4px 20px rgba(0,0,0,0.4);
     margin: 0;
     opacity: 0.95;
   }
@@ -78,12 +82,15 @@ import { facility } from '../../data/facility';
     color: var(--ink-dim);
     text-transform: uppercase;
     opacity: 0.75;
+    text-shadow:
+      0 1px 2px rgba(0,0,0,0.5),
+      0 2px 6px rgba(0,0,0,0.4);
   }
 
   @media (max-width: 640px) {
     .copy {
       width: 88%;
-      top: 18%;
+      top: 14%;
       bottom: auto;
     }
     .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
@@ -98,26 +105,6 @@ import { facility } from '../../data/facility';
       font-size: 9px;
       letter-spacing: 0.3em;
       padding: 0 8px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .hero-title {
-      color: #1a2126;
-      text-shadow:
-        0 1px 3px rgba(255,255,255,0.4),
-        0 2px 12px rgba(255,255,255,0.3);
-    }
-    .hero-sub {
-      color: rgba(26, 33, 38, 0.75);
-      text-shadow: 0 1px 3px rgba(255,255,255,0.4);
-    }
-    .eyebrow {
-      color: rgba(26, 33, 38, 0.85);
-      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
-    }
-    .hero-title .accent {
-      color: #2d5f6e;
     }
   }
 
