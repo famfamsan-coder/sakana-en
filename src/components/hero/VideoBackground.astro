@@ -1,0 +1,300 @@
+---
+const videos = [
+  '/videos/hero-01.mp4',
+  '/videos/hero-02.mp4',
+  '/videos/hero-03.mp4',
+  '/videos/hero-04.mp4',
+  '/videos/hero-05.mp4',
+  '/videos/hero-06.mp4',
+];
+---
+
+<div class="video-stage" aria-label="施設紹介動画: 渓流、炭火、森、ニジマス">
+  <div class="video-layer">
+    {videos.map((src, i) => (
+      <video
+        class:list={['hero-video', { active: i === 0 }]}
+        src={src}
+        muted
+        playsinline
+        preload="auto"
+        data-index={i}
+      />
+    ))}
+  </div>
+  <div class="fallback-scenes">
+    <div class="scene scene-river">
+      <div class="sun"></div>
+      <div class="ripple"></div><div class="ripple"></div><div class="ripple"></div>
+      <div class="ripple"></div><div class="ripple"></div>
+    </div>
+    <div class="scene scene-fire">
+      <div class="ember"></div><div class="ember"></div><div class="ember"></div><div class="ember"></div>
+      <div class="ember"></div><div class="ember"></div><div class="ember"></div><div class="ember"></div>
+    </div>
+    <div class="scene scene-forest">
+      <div class="mist"></div>
+      <div class="trunk" style="left:12%;"></div>
+      <div class="trunk" style="left:22%;"></div>
+      <div class="trunk" style="left:36%;"></div>
+      <div class="trunk" style="left:48%;"></div>
+      <div class="trunk" style="left:58%;"></div>
+      <div class="trunk" style="left:72%;"></div>
+      <div class="trunk" style="left:84%;"></div>
+      <div class="trunk" style="left:92%;"></div>
+    </div>
+    <div class="scene scene-trout">
+      <div class="caustic"></div>
+      <div class="fish" style="top:28%;"></div>
+      <div class="fish"></div>
+      <div class="fish"></div>
+      <div class="fish"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function initVideos() {
+    const isPCish = window.matchMedia('(min-width: 1025px)').matches;
+    if (!isPCish) {
+      document.querySelectorAll('.hero-video').forEach(function(v) {
+        (v as HTMLVideoElement).removeAttribute('src');
+        (v as HTMLVideoElement).load();
+      });
+      return;
+    }
+
+    const hero = document.querySelector('.hero');
+    const videos = Array.from(document.querySelectorAll('.hero-video')) as HTMLVideoElement[];
+    if (videos.length === 0) return;
+
+    let currentIndex = 0;
+    let hasStarted = false;
+
+    function markReady() {
+      if (hasStarted) return;
+      hasStarted = true;
+      hero!.classList.add('has-video');
+    }
+
+    function playNext() {
+      const current = videos[currentIndex];
+      const nextIndex = (currentIndex + 1) % videos.length;
+      const next = videos[nextIndex];
+
+      next.currentTime = 0;
+      next.play().catch(function(err) { console.warn('video play blocked:', err); });
+      next.classList.add('active');
+
+      setTimeout(function() {
+        current.classList.remove('active');
+        setTimeout(function() {
+          current.pause();
+          current.currentTime = 0;
+        }, 1500);
+      }, 600);
+
+      currentIndex = nextIndex;
+    }
+
+    videos.forEach(function(v, idx) {
+      v.addEventListener('ended', function() {
+        if (idx === currentIndex) playNext();
+      });
+      v.addEventListener('error', function(e) {
+        console.error('video load error:', v.src, e);
+      });
+    });
+
+    const first = videos[0];
+    function start() {
+      first.play().catch(function(err) { console.warn('initial play blocked:', err); });
+      markReady();
+    }
+
+    if (first.readyState >= 2) {
+      start();
+    } else {
+      first.addEventListener('loadeddata', start, { once: true });
+      first.addEventListener('canplay', start, { once: true });
+    }
+
+    videos.slice(1).forEach(function(v) {
+      if (v.readyState < 2) v.load();
+    });
+  })();
+</script>
+
+<style is:global>
+  .video-stage {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    background: #050a0d;
+  }
+  .video-stage::after {
+    content: "";
+    position: absolute; inset: -20%;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: .35;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  .scene {
+    position: absolute; inset: 0;
+    opacity: 0;
+    animation: sceneCycle 24s infinite;
+    will-change: opacity, transform;
+  }
+  .scene:nth-child(1) { animation-delay: 0s; }
+  .scene:nth-child(2) { animation-delay: 6s; }
+  .scene:nth-child(3) { animation-delay: 12s; }
+  .scene:nth-child(4) { animation-delay: 18s; }
+
+  @keyframes sceneCycle {
+    0%   { opacity: 0; transform: scale(1.08); }
+    4%   { opacity: 1; }
+    22%  { opacity: 1; transform: scale(1.0); }
+    27%  { opacity: 0; transform: scale(0.98); }
+    100% { opacity: 0; }
+  }
+
+  .scene-river {
+    background:
+      radial-gradient(ellipse at 30% 10%, rgba(156,199,212,0.22), transparent 55%),
+      radial-gradient(ellipse at 70% 90%, rgba(10,30,40,0.6), transparent 60%),
+      linear-gradient(180deg, #12303a 0%, #0a1b22 45%, #05121a 100%);
+  }
+  .scene-river .ripple {
+    position: absolute; left: -10%; right: -10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(220,235,240,0.55), transparent);
+    filter: blur(0.8px);
+    animation: drift 9s linear infinite;
+  }
+  .scene-river .ripple:nth-child(1) { top: 38%; animation-duration: 11s; opacity: .6; }
+  .scene-river .ripple:nth-child(2) { top: 52%; animation-duration: 8s; animation-delay: -3s; opacity: .8; }
+  .scene-river .ripple:nth-child(3) { top: 61%; animation-duration: 14s; animation-delay: -5s; opacity: .45; }
+  .scene-river .ripple:nth-child(4) { top: 73%; animation-duration: 10s; animation-delay: -2s; opacity: .7; }
+  .scene-river .ripple:nth-child(5) { top: 84%; animation-duration: 12s; animation-delay: -7s; opacity: .5; }
+  @keyframes drift {
+    0%   { transform: translateX(-8%) scaleY(1); }
+    50%  { transform: translateX(4%)  scaleY(1.4); }
+    100% { transform: translateX(-8%) scaleY(1); }
+  }
+  .scene-river .sun {
+    position: absolute; top: 12%; left: 50%;
+    width: 420px; height: 420px;
+    margin-left: -210px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,246,220,0.45) 0%, rgba(255,246,220,0.08) 40%, transparent 65%);
+    filter: blur(6px);
+  }
+
+  .scene-fire {
+    background:
+      radial-gradient(ellipse at 50% 80%, rgba(255,140,60,0.28), transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(255,80,20,0.5), transparent 45%),
+      linear-gradient(180deg, #130a08 0%, #0a0603 100%);
+  }
+  .scene-fire .ember {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #ffbf7a;
+    box-shadow: 0 0 8px 2px rgba(255,170,80,0.6);
+    bottom: 0;
+    animation: rise 6s linear infinite;
+  }
+  .scene-fire .ember:nth-child(1) { left: 20%; animation-delay: -1s; animation-duration: 5s; }
+  .scene-fire .ember:nth-child(2) { left: 35%; animation-delay: -3s; animation-duration: 7s; }
+  .scene-fire .ember:nth-child(3) { left: 48%; animation-delay: -0.5s; animation-duration: 6s; }
+  .scene-fire .ember:nth-child(4) { left: 58%; animation-delay: -2s; animation-duration: 8s; }
+  .scene-fire .ember:nth-child(5) { left: 72%; animation-delay: -4s; animation-duration: 6.5s; }
+  .scene-fire .ember:nth-child(6) { left: 82%; animation-delay: -1.5s; animation-duration: 5.5s; }
+  .scene-fire .ember:nth-child(7) { left: 28%; animation-delay: -5s; animation-duration: 7.5s; }
+  .scene-fire .ember:nth-child(8) { left: 65%; animation-delay: -3.5s; animation-duration: 6s; }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-90vh) translateX(30px); opacity: 0; }
+  }
+
+  .scene-forest {
+    background:
+      linear-gradient(180deg, rgba(100,140,130,0.35) 0%, rgba(15,30,28,0.9) 100%),
+      linear-gradient(180deg, #1a2e28 0%, #0a1714 100%);
+  }
+  .scene-forest .trunk {
+    position: absolute; bottom: 0; top: 20%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(10,18,15,0.9));
+  }
+  .scene-forest .mist {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(220,230,228,0.18), transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(200,220,220,0.12), transparent 55%);
+    animation: mistDrift 18s ease-in-out infinite alternate;
+  }
+  @keyframes mistDrift {
+    0%   { transform: translateX(-3%); }
+    100% { transform: translateX(3%); }
+  }
+
+  .scene-trout {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(180,210,220,0.25), transparent 55%),
+      linear-gradient(180deg, #0e2a34 0%, #061218 100%);
+  }
+  .scene-trout .caustic {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(115deg, transparent 0 40px, rgba(200,230,240,0.06) 40px 42px);
+    animation: caustic 12s linear infinite;
+  }
+  @keyframes caustic {
+    0% { transform: translateX(-40px); }
+    100% { transform: translateX(40px); }
+  }
+  .scene-trout .fish {
+    position: absolute;
+    width: 80px; height: 18px;
+    background: linear-gradient(90deg, rgba(180,200,210,0) 0%, rgba(200,220,225,0.5) 40%, rgba(220,235,240,0.75) 60%, rgba(180,200,210,0) 100%);
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: swim 14s linear infinite;
+  }
+  .scene-trout .fish:nth-child(2) { top: 35%; animation-delay: -2s; }
+  .scene-trout .fish:nth-child(3) { top: 55%; width: 110px; animation-delay: -6s; animation-duration: 18s; opacity: .7; }
+  .scene-trout .fish:nth-child(4) { top: 70%; width: 60px; animation-delay: -9s; animation-duration: 11s; opacity: .5; }
+  @keyframes swim {
+    0%   { transform: translateX(-15vw); }
+    100% { transform: translateX(115vw); }
+  }
+
+  .video-layer {
+    position: absolute; inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero.has-video .video-layer { opacity: 1; }
+  .hero.has-video .fallback-scenes { display: none; }
+
+  .fallback-scenes { z-index: 1; }
+
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    will-change: opacity;
+  }
+  .hero-video.active { opacity: 1; }
+
+  @media (max-width: 1024px) {
+    .video-stage { display: none !important; }
+  }
+</style>

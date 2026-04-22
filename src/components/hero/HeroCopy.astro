@@ -1,0 +1,108 @@
+---
+import { facility } from '../../data/facility';
+---
+
+<div class="copy">
+  <div class="eyebrow">
+    <span>{facility.eyebrow.location}</span>
+    <span class="sep">/</span>
+    <span>{facility.eyebrow.river}</span>
+    <span class="sep sep-since">/</span>
+    <span class="since">{facility.eyebrow.source}</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="hero-line">{facility.heroTitle.line1}<span class="accent">{facility.heroTitle.accent}</span>{facility.heroTitle.line1suffix}</span><br/>
+    <span class="hero-line">{facility.heroTitle.line2}</span>
+  </h1>
+  <p class="hero-sub">{facility.heroTagline}</p>
+</div>
+
+<style is:global>
+  .copy {
+    position: absolute;
+    left: 50%;
+    top: 22%;
+    bottom: auto;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    width: min(580px, 72vw);
+    opacity: 0;
+    animation: copyIn 1.4s ease-out 0.6s forwards;
+  }
+  @keyframes copyIn {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.5em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    opacity: 0.75;
+  }
+  .eyebrow .sep { color: var(--ink-faint); margin: 0 12px; }
+  .hero-title {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: clamp(24px, 2.8vw, 42px);
+    letter-spacing: 0.18em;
+    line-height: 1.4;
+    color: var(--ink);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    margin: 0;
+    opacity: 0.95;
+  }
+  .hero-title .accent {
+    font-style: italic;
+    font-family: var(--serif-en);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    font-size: 0.8em;
+    padding: 0 0.1em;
+  }
+  .hero-line {
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .hero-sub {
+    margin-top: 18px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 640px) {
+    .copy {
+      width: 88%;
+      top: 18%;
+      bottom: auto;
+    }
+    .eyebrow { font-size: 7px; letter-spacing: 0.35em; margin-bottom: 14px; }
+    .eyebrow .sep { margin: 0 4px; }
+    .hero-title {
+      font-size: clamp(22px, 7.5vw, 32px);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+    }
+    .hero-title .hero-line { white-space: nowrap; }
+    .hero-sub {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      padding: 0 8px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .eyebrow .since { display: none; }
+    .eyebrow .sep-since { display: none; }
+  }
+</style>
