@@ -17,6 +17,12 @@ pnpm-debug.log*
 .env
 .env.production
 
+# large media files
+public/videos/*.mp4
+
+# synced mockup copy (regenerated via npm run mockup:sync)
+public/mockup/
+
 # macOS-specific files
 .DS_Store
 
