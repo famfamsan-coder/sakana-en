@@ -20,11 +20,21 @@ const layout = data.mobileLayout;
     </div>
     <div class="mq-title-row">
       <h3 class="mq-title-en">{data.titleEn}<em>.</em></h3>
-      <p class="mq-title-ja">{data.titleJa}</p>
+      <p class="mq-title-ja">
+        <span data-lang-ja>{data.titleJa}</span>
+        <span data-lang-en>{data.titleJaEn}</span>
+      </p>
     </div>
     <div class="mq-body">
-      <p set:html={data.description.replace(/\n/g, '<br/>')} />
-      <a href={data.readMoreHref} class="mq-more">{data.readMoreLabel} <span class="arrow">→</span></a>
+      <p>
+        <span data-lang-ja set:html={data.description.replace(/\n/g, '<br/>')} />
+        <span data-lang-en set:html={data.descriptionEn.replace(/\n/g, '<br/>')} />
+      </p>
+      <a href={data.readMoreHref} class="mq-more">
+        <span data-lang-ja>{data.readMoreLabel}</span>
+        <span data-lang-en>{data.readMoreLabelEn}</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
   </header>
 

@@ -1,5 +1,6 @@
 ---
 import { facility } from '../../data/facility';
+import { translations as t } from '../../data/translations';
 ---
 
 <div class="copy">
@@ -8,11 +9,17 @@ import { facility } from '../../data/facility';
     <span class="sep">/</span>
     <span>{facility.eyebrow.river}</span>
     <span class="sep sep-since">/</span>
-    <span class="since">{facility.eyebrow.source}</span>
+    <span class="since">
+      <span data-lang-ja>{t.heroEyebrow.ja}</span>
+      <span data-lang-en>{t.heroEyebrow.en}</span>
+    </span>
   </div>
   <h1 class="hero-title">
-    <span class="hero-line">{facility.heroTitle.line1}<span class="accent">{facility.heroTitle.accent}</span>{facility.heroTitle.line1suffix}</span><br/>
-    <span class="hero-line">{facility.heroTitle.line2}</span>
+    <span class="hero-line" data-lang-ja>{facility.heroTitle.line1}<span class="accent">{facility.heroTitle.accent}</span>{facility.heroTitle.line1suffix}</span>
+    <span class="hero-line" data-lang-en>{t.heroTitleLine1Prefix.en}<span class="accent">{t.heroTitleAccent.en}</span></span>
+    <br/>
+    <span class="hero-line" data-lang-ja>{facility.heroTitle.line2}</span>
+    <span class="hero-line" data-lang-en>{t.heroTitleLine2.en}</span>
   </h1>
   <p class="hero-sub">{facility.heroTagline}</p>
 </div>

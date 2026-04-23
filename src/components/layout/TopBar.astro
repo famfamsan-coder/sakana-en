@@ -1,5 +1,6 @@
 ---
 import { facility } from '../../data/facility';
+import { translations } from '../../data/translations';
 ---
 
 <header class="topbar">
@@ -7,7 +8,10 @@ import { facility } from '../../data/facility';
     <button class="hamburger" id="menuBtn" aria-label="メニューを開く" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <span class="menu-label">MENU — 案内</span>
+    <span class="menu-label">
+      <span data-lang-ja>{translations.menuLabel.ja}</span>
+      <span data-lang-en>{translations.menuLabel.en}</span>
+    </span>
   </div>
 
   <div class="logo">
@@ -17,7 +21,9 @@ import { facility } from '../../data/facility';
 
   <div class="topbar-right">
     <div class="lang-toggle">
-      <span class="active">JA</span><span class="sep">/</span><span>EN</span>
+      <button class="lang-btn" data-lang-btn="ja">JA</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" data-lang-btn="en">EN</button>
     </div>
     <a href={`tel:${facility.contact.tel}`} class="phone">
       <small>Reservations</small>
@@ -64,6 +70,16 @@ import { facility } from '../../data/facility';
   }, { passive: true });
 
   updateCTAs();
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang-btn');
+      if (lang) {
+        document.documentElement.setAttribute('data-lang', lang);
+        localStorage.setItem('sakana-lang', lang);
+      }
+    });
+  });
 </script>
 
 <style is:global>
@@ -86,8 +102,10 @@ import { facility } from '../../data/facility';
   .topbar.scrolled .menu-label { color: #1a2126; }
   .topbar.scrolled .logo-sub,
   .topbar.scrolled .lang-toggle,
+  .topbar.scrolled .lang-btn,
   .topbar.scrolled .phone small { color: rgba(26, 33, 38, 0.55); }
-  .topbar.scrolled .lang-toggle .active { color: #1a2126; }
+  html[data-lang="ja"] .topbar.scrolled .lang-btn[data-lang-btn="ja"],
+  html[data-lang="en"] .topbar.scrolled .lang-btn[data-lang-btn="en"] { color: #1a2126; }
   .topbar.scrolled .hamburger span { background: #1a2126; }
 
   @media (max-width: 768px) { .topbar { padding: 24px 20px; } }
@@ -128,9 +146,19 @@ import { facility } from '../../data/facility';
   .topbar-right { display: flex; align-items: center; gap: 20px; }
   .lang-toggle {
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
-    color: var(--ink-dim); display: flex; gap: 10px;
+    color: var(--ink-dim); display: flex; align-items: center; gap: 4px;
   }
-  .lang-toggle .active { color: var(--ink); }
+  .lang-btn {
+    padding: 4px 6px; cursor: pointer;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
+    color: var(--ink-dim); background: none; border: none;
+    transition: color 0.3s ease;
+  }
+  .lang-btn:hover { color: var(--ink); }
+  html[data-lang="ja"] .lang-btn[data-lang-btn="ja"],
+  html[data-lang="en"] .lang-btn[data-lang-btn="en"] {
+    color: var(--ink); font-weight: 500;
+  }
   .lang-toggle .sep { color: var(--ink-faint); }
   .phone {
     font-family: var(--serif-en); font-size: 15px; letter-spacing: 0.12em; color: var(--ink);

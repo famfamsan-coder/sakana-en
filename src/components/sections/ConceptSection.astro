@@ -1,5 +1,6 @@
 ---
 import { facility } from '../../data/facility';
+import { translations as t } from '../../data/translations';
 ---
 
 <section class="concept">
@@ -7,12 +8,20 @@ import { facility } from '../../data/facility';
     <div>
       <div class="chapter reveal">Chapter 01 / Concept</div>
       <h2 class="reveal">
-        東京の西、日の出町に<br/>
-        太陽とみどりの<br/>
-        <em>natural resort.</em>
+        <span data-lang-ja-block>
+          東京の西、日の出町に<br/>
+          太陽とみどりの<br/>
+          <em>natural resort.</em>
+        </span>
+        <span data-lang-en-block>
+          Sun &amp; green<br/>
+          natural resort<br/>
+          <em>in west Tokyo.</em>
+        </span>
       </h2>
       <p class="reveal">
-        東京都西多摩郡日の出町、平井川のほとり。自然休養村として認定されたこの地で、渓流釣り、つかみ捕り、バーベキューなど、自然と触れ合う体験をお楽しみいただけます。初心者でも安心、竿もエサも手ぶらでどうぞ。
+        <span data-lang-ja>{t.conceptBody.ja}</span>
+        <span data-lang-en>{t.conceptBody.en}</span>
       </p>
 
       <div class="stats reveal">
@@ -35,7 +44,10 @@ import { facility } from '../../data/facility';
       <div class="imgpane">
         <span class="tag">FILE / IMG — 01</span>
         <div class="caption">
-          <span>施設風景 · 平井川のほとり</span>
+          <span>
+            <span data-lang-ja>{t.conceptCaption.ja}</span>
+            <span data-lang-en>{t.conceptCaption.en}</span>
+          </span>
           <span>06:42</span>
         </div>
       </div>

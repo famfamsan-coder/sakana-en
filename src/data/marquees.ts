@@ -12,8 +12,11 @@ export interface MarqueeData {
   chapterNum: string;
   titleEn: string;
   titleJa: string;
+  titleJaEn: string;
   description: string;
+  descriptionEn: string;
   readMoreLabel: string;
+  readMoreLabelEn: string;
   readMoreHref: string;
   direction: "left" | "right";
   duration: string;
@@ -28,9 +31,13 @@ export const marquees: MarqueeData[] = [
     chapterNum: "— 01",
     titleEn: "Fishing",
     titleJa: "釣りを愉しむ",
+    titleJaEn: "Enjoy Fishing",
     description:
       "平井川の清流で渓流釣り、お子様でも安心の釣り堀、\n小さなお子様でも楽しめるつかみ捕り。竿もエサもご用意、手ぶらでどうぞ。",
+    descriptionEn:
+      "Stream fishing in the clear Hirai River, a safe fishing pond for children,\nand fish catching for little ones. Rods and bait provided — come empty-handed.",
     readMoreLabel: "料金詳細",
+    readMoreLabelEn: "Pricing",
     readMoreHref: "#fishing",
     direction: "left",
     duration: "70s",
@@ -49,9 +56,13 @@ export const marquees: MarqueeData[] = [
     chapterNum: "— 02",
     titleEn: "Eat",
     titleJa: "食す愉しみ",
+    titleJaEn: "Taste Experience",
     description:
       "屋根付きBBQハウスで本格バーベキュー、\n名物将門うどんとシャモ鍋の食堂、50名収容の大宴会場。釣ったニジマスも調理承ります。",
+    descriptionEn:
+      "Authentic BBQ in a covered BBQ house, our signature Masakado udon and shamo hot pot restaurant,\nplus a banquet hall seating 50. We can also cook your freshly caught trout.",
     readMoreLabel: "メニュー",
+    readMoreLabelEn: "Menu",
     readMoreHref: "#bbq",
     direction: "right",
     duration: "75s",
@@ -70,9 +81,13 @@ export const marquees: MarqueeData[] = [
     chapterNum: "— 03",
     titleEn: "Nature",
     titleJa: "自然と過ごす",
+    titleJaEn: "Nature Time",
     description:
       "東京都西多摩郡日の出町、自然休養村として認定された地。\n平井川の大自然、四季折々の表情を、ご家族・ご友人と心ゆくまで。",
+    descriptionEn:
+      "Hinode-machi, Nishitama District, Tokyo — a certified natural recreation village.\nImmerse yourself in the nature of the Hirai River through every season, with family and friends.",
     readMoreLabel: "アクセス",
+    readMoreLabelEn: "Access",
     readMoreHref: "#access",
     direction: "left",
     duration: "70s",
