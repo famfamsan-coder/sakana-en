@@ -73,6 +73,22 @@ import { facility } from '../../data/facility';
   menuBtn!.addEventListener('click', () => toggleNav());
   document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleNav(false); });
   nav!.addEventListener('click', e => { if (e.target === nav) toggleNav(false); });
+
+  nav!.querySelectorAll('a[href]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        toggleNav(false);
+        setTimeout(() => {
+          const target = document.getElementById(href.slice(1));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 500);
+      } else {
+        toggleNav(false);
+      }
+    });
+  });
 </script>
 
 <style is:global>
