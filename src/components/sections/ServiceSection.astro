@@ -1,0 +1,394 @@
+---
+import type { ServiceData } from '../../data/services';
+import { facility } from '../../data/facility';
+
+interface Props {
+  data: ServiceData;
+}
+
+const { data } = Astro.props;
+---
+
+<section id={data.id} class="service-section" data-screen-label={`${data.chapterNumber} ${data.titleEn}`}>
+  <div class="service-inner">
+
+    <div class="service-head reveal">
+      <div class="chapter-line">
+        <span class="chapter-label">Chapter {data.chapterNumber}</span>
+        <span class="chapter-sep">/</span>
+        <span class="chapter-en">{data.titleEn}</span>
+      </div>
+      <div class="chapter-num">— {data.chapterNumber}</div>
+    </div>
+
+    <h2 class="service-title reveal">
+      {data.titleJa}<span class="dot">.</span>
+    </h2>
+
+    <p class="service-description reveal">{data.description}</p>
+
+    <div class="service-grid">
+
+      <div class="price-block reveal">
+        <h3 class="block-heading">
+          <span class="en">Pricing</span>
+          <span class="ja">料金</span>
+        </h3>
+        <dl class="price-list">
+          {data.prices.map(item => (
+            <div class="price-item">
+              <dt>{item.label}</dt>
+              <dd>
+                <span class="price-value">{item.price}</span>
+                {item.note && <span class="price-note">{item.note}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p class="price-footnote">
+          ※金額はすべて税込・現金のみ（2026年時点）<br/>
+          ※料金は変動する場合があります
+        </p>
+      </div>
+
+      {data.features && data.features.length > 0 && (
+        <div class="features-block reveal">
+          <h3 class="block-heading">
+            <span class="en">Features</span>
+            <span class="ja">特徴</span>
+          </h3>
+          <ul class="features-list">
+            {data.features.map(f => <li>{f}</li>)}
+          </ul>
+        </div>
+      )}
+
+    </div>
+
+    <div class="service-cta reveal">
+      <p class="cta-lead">ご予約・お問い合わせ</p>
+      <a href={`tel:${facility.contact.tel}`} class="cta-tel">
+        <span class="tel-label">TEL</span>
+        <span class="tel-number">{facility.contact.telDisplay}</span>
+      </a>
+      <p class="cta-note">営業時間 {facility.hours.open}〜{facility.hours.close} / {facility.hours.closed}</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .service-section {
+    background: var(--cream, #f5f1e8);
+    padding: 120px 64px;
+    scroll-margin-top: 80px;
+    position: relative;
+  }
+
+  .service-section:nth-child(even) {
+    background: var(--paper, #ece6d8);
+  }
+
+  .service-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .service-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(11, 20, 25, 0.12);
+  }
+
+  .chapter-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+  }
+
+  .chapter-sep {
+    opacity: 0.4;
+  }
+
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent-deep);
+  }
+
+  .service-title {
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(48px, 7vw, 96px);
+    letter-spacing: 0.01em;
+    color: var(--deep);
+    line-height: 1;
+    margin: 0 0 24px;
+  }
+
+  .service-title .dot {
+    color: var(--accent-deep);
+  }
+
+  .service-description {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 2.2;
+    color: rgba(11, 20, 25, 0.75);
+    margin: 0 0 72px;
+    max-width: 680px;
+    letter-spacing: 0.08em;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 72px;
+    margin-bottom: 80px;
+  }
+
+  .block-heading {
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .block-heading .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--deep);
+    line-height: 1;
+  }
+
+  .block-heading .ja {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+  }
+
+  .price-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px dotted rgba(11, 20, 25, 0.15);
+  }
+
+  .price-item:last-child {
+    border-bottom: none;
+  }
+
+  .price-item dt {
+    font-family: var(--serif-jp);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--deep);
+    letter-spacing: 0.08em;
+  }
+
+  .price-item dd {
+    margin: 0;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .price-value {
+    font-family: var(--serif-en);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--deep);
+    letter-spacing: 0.02em;
+  }
+
+  .price-note {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 11px;
+    color: rgba(11, 20, 25, 0.55);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .price-footnote {
+    margin-top: 20px;
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 1.8;
+    color: rgba(11, 20, 25, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .features-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .features-list li {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.9;
+    color: rgba(11, 20, 25, 0.75);
+    padding-left: 20px;
+    position: relative;
+    letter-spacing: 0.08em;
+  }
+
+  .features-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-deep);
+    font-weight: 400;
+  }
+
+  .service-cta {
+    padding-top: 40px;
+    border-top: 1px solid rgba(11, 20, 25, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .cta-lead {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .cta-tel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    padding: 16px 32px;
+    border: 1px solid var(--deep);
+    transition: all 0.3s ease;
+  }
+
+  .cta-tel:hover {
+    background: var(--deep);
+    color: var(--cream, #f5f1e8);
+  }
+
+  .cta-tel:hover .tel-label,
+  .cta-tel:hover .tel-number {
+    color: inherit;
+  }
+
+  .tel-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--accent-deep);
+  }
+
+  .tel-number {
+    font-family: var(--serif-en);
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    color: var(--deep);
+  }
+
+  .cta-note {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 11px;
+    color: rgba(11, 20, 25, 0.5);
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .service-section {
+      padding: 80px 40px;
+    }
+    .service-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      margin-bottom: 60px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .service-section {
+      padding: 60px 24px;
+    }
+    .service-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .service-title {
+      font-size: clamp(36px, 10vw, 48px);
+      margin-bottom: 16px;
+    }
+    .service-description {
+      font-size: 13px;
+      line-height: 2.0;
+      letter-spacing: 0.06em;
+      margin-bottom: 48px;
+    }
+    .block-heading .en {
+      font-size: 22px;
+    }
+    .price-item {
+      padding: 14px 0;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .price-item dd {
+      text-align: left;
+      align-items: flex-start;
+    }
+    .cta-tel {
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px 28px;
+      width: 100%;
+      max-width: 320px;
+    }
+    .tel-number {
+      font-size: 18px;
+    }
+  }
+</style>

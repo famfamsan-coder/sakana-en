@@ -1,0 +1,338 @@
+---
+import { facility } from '../../data/facility';
+---
+
+<section id="access" class="access-section" data-screen-label="08 ACCESS">
+  <div class="access-inner">
+
+    <div class="access-head reveal">
+      <div class="chapter-line">
+        <span class="chapter-label">Chapter 08</span>
+        <span class="chapter-sep">/</span>
+        <span class="chapter-en">ACCESS</span>
+      </div>
+      <div class="chapter-num">— 08</div>
+    </div>
+
+    <h2 class="access-title reveal">
+      Access<span class="dot">.</span>
+    </h2>
+
+    <p class="access-subtitle reveal">営業情報・アクセス</p>
+
+    <div class="access-grid">
+
+      <div class="access-info reveal">
+        <h3 class="info-heading">
+          <span class="en">Location</span>
+          <span class="ja">所在地</span>
+        </h3>
+        <address class="info-address">
+          {facility.address.postal}<br/>
+          {facility.address.line1}<br/>
+          {facility.address.line2}
+        </address>
+        <dl class="info-contact">
+          <div>
+            <dt>TEL</dt>
+            <dd><a href={`tel:${facility.contact.tel}`}>{facility.contact.telDisplay}</a></dd>
+          </div>
+          <div>
+            <dt>FAX</dt>
+            <dd>{facility.contact.fax}</dd>
+          </div>
+        </dl>
+        <a href={facility.address.mapUrl}
+           class="map-link"
+           target="_blank"
+           rel="noopener noreferrer">
+          Google Mapsで見る →
+        </a>
+      </div>
+
+      <div class="access-hours reveal">
+        <h3 class="info-heading">
+          <span class="en">Hours</span>
+          <span class="ja">営業時間</span>
+        </h3>
+        <dl class="info-list">
+          <div>
+            <dt>営業時間</dt>
+            <dd>
+              {facility.hours.open} — {facility.hours.close}<br/>
+              <small>アクティビティ: {facility.hours.activity}</small>
+            </dd>
+          </div>
+          <div>
+            <dt>定休日</dt>
+            <dd>
+              {facility.hours.closed}<br/>
+              <small>{facility.hours.closedNote}</small>
+            </dd>
+          </div>
+          <div>
+            <dt>駐車場</dt>
+            <dd>{facility.parking}</dd>
+          </div>
+          <div>
+            <dt>お支払い</dt>
+            <dd>{facility.payment}</dd>
+          </div>
+        </dl>
+      </div>
+
+    </div>
+
+    <div class="access-notes reveal">
+      <p>
+        ※自然災害により川釣り・つかみ捕りが中止になる場合があります。<br/>
+        事前にお電話にてお問い合わせください。
+      </p>
+      <p>
+        ※4月〜10月の繁忙期は、ペットの同伴をお断りする場合があります。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .access-section {
+    background: var(--deep);
+    color: var(--ink);
+    padding: 120px 64px;
+    scroll-margin-top: 80px;
+  }
+
+  .access-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .access-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .chapter-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .chapter-sep {
+    opacity: 0.4;
+  }
+
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+  }
+
+  .access-title {
+    font-family: var(--serif-en);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(48px, 7vw, 96px);
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    line-height: 1;
+    margin: 0 0 12px;
+  }
+
+  .access-title .dot {
+    color: var(--accent);
+  }
+
+  .access-subtitle {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    margin: 0 0 72px;
+  }
+
+  .access-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    margin-bottom: 64px;
+  }
+
+  .info-heading {
+    margin: 0 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .info-heading .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .info-heading .ja {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .info-address {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2.0;
+    color: var(--ink-dim);
+    font-style: normal;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+
+  .info-contact,
+  .info-list {
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-contact > div,
+  .info-list > div {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    align-items: baseline;
+  }
+
+  .info-contact dt,
+  .info-list dt {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  .info-contact dd,
+  .info-list dd {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .info-contact dd a {
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .info-contact dd a:hover {
+    color: var(--accent);
+  }
+
+  .info-list dd small {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+
+  .map-link {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .map-link:hover {
+    color: var(--ink);
+  }
+
+  .access-notes {
+    padding: 32px 0 0;
+    border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  }
+
+  .access-notes p {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 2.0;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    margin: 0 0 12px;
+  }
+
+  @media (max-width: 1024px) {
+    .access-section {
+      padding: 80px 40px;
+    }
+    .access-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      margin-bottom: 48px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .access-section {
+      padding: 60px 24px;
+    }
+    .access-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .access-title {
+      font-size: clamp(36px, 10vw, 48px);
+    }
+    .access-subtitle {
+      font-size: 12px;
+      margin-bottom: 48px;
+    }
+    .info-heading .en {
+      font-size: 22px;
+    }
+    .info-address {
+      font-size: 13px;
+    }
+    .info-contact dd,
+    .info-list dd {
+      font-size: 12px;
+    }
+    .info-contact > div,
+    .info-list > div {
+      grid-template-columns: 70px 1fr;
+      gap: 16px;
+    }
+    .access-notes p {
+      font-size: 11px;
+    }
+  }
+</style>

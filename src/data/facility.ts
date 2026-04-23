@@ -87,8 +87,8 @@ export const facility: Facility = {
   ],
   footerServices: [
     { label: "渓流釣り", href: "#fishing" },
-    { label: "釣り堀", href: "#turibori" },
-    { label: "つかみ捕り", href: "#tukami" },
+    { label: "釣り堀", href: "#fishing" },
+    { label: "つかみ捕り", href: "#fishing" },
     { label: "バーベキュー", href: "#bbq" },
     { label: "さかな園食堂", href: "#food" },
     { label: "宴会・宴席", href: "#enkai" },
