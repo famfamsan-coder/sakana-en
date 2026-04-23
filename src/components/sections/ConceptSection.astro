@@ -133,4 +133,40 @@ import { facility } from '../../data/facility';
     font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em;
     color: rgba(26,33,38,0.5); text-transform: uppercase;
   }
+
+  @media (max-width: 1024px) {
+    .concept { padding: 120px 40px 140px; }
+    .concept .grid { gap: 60px; }
+    .concept h2 { font-size: clamp(28px, 4vw, 44px); }
+    .stat .num { font-size: 36px; }
+  }
+
+  @media (max-width: 640px) {
+    .concept { padding: 80px 24px 100px; }
+    .concept .grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .concept h2 {
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .concept h2 em {
+      font-size: 18px;
+    }
+    .concept p {
+      font-size: 13px;
+      line-height: 2.0;
+      letter-spacing: 0.08em;
+    }
+    .concept .stats {
+      margin-top: 40px;
+      gap: 24px;
+    }
+    .stat .num { font-size: 32px; }
+    .stat .num sup { font-size: 13px; }
+    .stat .label { font-size: 8px; }
+  }
 </style>
