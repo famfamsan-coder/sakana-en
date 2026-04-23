@@ -4,6 +4,8 @@ export interface MarqueeImage {
   caption: string;
 }
 
+export type MobileLayout = "hero-with-two" | "asymmetric-pair" | "single-hero";
+
 export interface MarqueeData {
   id: string;
   chapterLabel: string;
@@ -16,6 +18,7 @@ export interface MarqueeData {
   direction: "left" | "right";
   duration: string;
   images: MarqueeImage[];
+  mobileLayout: MobileLayout;
 }
 
 export const marquees: MarqueeData[] = [
@@ -30,7 +33,8 @@ export const marquees: MarqueeData[] = [
     readMoreLabel: "料金詳細",
     readMoreHref: "#fishing",
     direction: "left",
-    duration: "45s",
+    duration: "70s",
+    mobileLayout: "hero-with-two",
     images: [
       { src: "/images/sample-02.webp", alt: "釣り道具一式", caption: "01_道具一式" },
       { src: "/images/sample-03.webp", alt: "親子で釣り体験", caption: "02_親子で体験" },
@@ -50,7 +54,8 @@ export const marquees: MarqueeData[] = [
     readMoreLabel: "メニュー",
     readMoreHref: "#bbq",
     direction: "right",
-    duration: "50s",
+    duration: "75s",
+    mobileLayout: "asymmetric-pair",
     images: [
       { src: "/images/sample-05.webp", alt: "燃える炭火", caption: "01_炭火" },
       { src: "/images/sample-06.webp", alt: "ニジマスの塩焼き", caption: "02_ニジマス塩焼き" },
@@ -70,7 +75,8 @@ export const marquees: MarqueeData[] = [
     readMoreLabel: "アクセス",
     readMoreHref: "#access",
     direction: "left",
-    duration: "40s",
+    duration: "70s",
+    mobileLayout: "single-hero",
     images: [
       { src: "/images/sample-01.webp", alt: "平井川の清流", caption: "01_平井川" },
       { src: "/images/sample-04.webp", alt: "渓谷の風景", caption: "02_渓谷" },

@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { data, index, isAlt = false } = Astro.props;
+const layout = data.mobileLayout;
 ---
 
 <article class:list={['mq-block', { alt: isAlt }]}>
@@ -42,6 +43,47 @@ const { data, index, isAlt = false } = Astro.props;
         </figure>
       ))}
     </div>
+  </div>
+
+  <div class="mq-mobile-grid reveal" data-layout={layout}>
+    {layout === 'hero-with-two' && (
+      <>
+        <figure class="mg-tile mg-hero">
+          <img src={data.images[2].src} alt={data.images[2].alt} loading="lazy" />
+          <figcaption>{data.images[2].caption}</figcaption>
+        </figure>
+        <figure class="mg-tile mg-sub">
+          <img src={data.images[0].src} alt={data.images[0].alt} loading="lazy" />
+          <figcaption>{data.images[0].caption}</figcaption>
+        </figure>
+        <figure class="mg-tile mg-sub">
+          <img src={data.images[1].src} alt={data.images[1].alt} loading="lazy" />
+          <figcaption>{data.images[1].caption}</figcaption>
+        </figure>
+      </>
+    )}
+    {layout === 'asymmetric-pair' && (
+      <>
+        <figure class="mg-tile mg-tall">
+          <img src={data.images[1].src} alt={data.images[1].alt} loading="lazy" />
+          <figcaption>{data.images[1].caption}</figcaption>
+        </figure>
+        <figure class="mg-tile mg-half">
+          <img src={data.images[2].src} alt={data.images[2].alt} loading="lazy" />
+          <figcaption>{data.images[2].caption}</figcaption>
+        </figure>
+        <figure class="mg-tile mg-half">
+          <img src={data.images[3].src} alt={data.images[3].alt} loading="lazy" />
+          <figcaption>{data.images[3].caption}</figcaption>
+        </figure>
+      </>
+    )}
+    {layout === 'single-hero' && (
+      <figure class="mg-tile mg-full">
+        <img src={data.images[0].src} alt={data.images[0].alt} loading="lazy" />
+        <figcaption>{data.images[0].caption}</figcaption>
+      </figure>
+    )}
   </div>
 </article>
 
@@ -133,64 +175,132 @@ const { data, index, isAlt = false } = Astro.props;
   .marquee-wrapper {
     width: 100%;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-            mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
   }
   .marquee-track {
     display: flex;
-    gap: 10px;
+    gap: 24px;
     width: max-content;
-    animation: mqScroll var(--duration, 45s) linear infinite;
+    animation: mqScroll var(--duration, 70s) linear infinite;
   }
   .marquee-track.reverse { animation-direction: reverse; }
   .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
 
   .mq-tile {
     flex: 0 0 auto;
-    width: 320px;
+    width: 60vw;
+    max-width: 900px;
     margin: 0;
     overflow: hidden;
   }
   .mq-tile img {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s ease;
+    transition: transform 0.8s ease;
   }
-  .mq-tile:hover img { transform: scale(1.04); }
+  .mq-tile:hover img { transform: scale(1.02); }
   .mq-tile figcaption {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
     color: rgba(26,33,38,0.45); text-transform: uppercase;
-    margin-top: 12px; padding-left: 2px;
+    margin-top: 16px; padding-left: 4px;
   }
 
   @keyframes mqScroll {
     from { transform: translateX(0); }
-    to   { transform: translateX(calc(-50% - 5px)); }
+    to   { transform: translateX(calc(-50% - 12px)); }
+  }
+
+  .mq-mobile-grid {
+    display: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
   }
 
-  @media (max-width: 768px) {
-    .mq-head { padding: 0 24px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+  @media (max-width: 1024px) {
+    .mq-head { padding: 0 40px; grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
     .mq-title-row { flex-direction: column; align-items: flex-start; gap: 12px; }
     .mq-title-en { font-size: 72px; }
     .mq-title-ja { white-space: normal; font-size: 14px; }
-    .mq-tile { width: 260px; }
-    .mq-tile img { height: 180px; }
+    .mq-tile { width: 70vw; max-width: 700px; }
   }
 
   @media (max-width: 640px) {
     .mq-sections { padding: 80px 0 100px; }
     .mq-block { padding: 48px 0; }
-    .mq-head { margin-bottom: 40px; }
-    .mq-title-en { font-size: 56px; letter-spacing: 0.04em; }
-    .mq-title-ja { font-size: 12px; letter-spacing: 0.25em; }
-    .mq-body p { font-size: 13px; line-height: 1.9; }
-    .mq-tile { width: 220px; }
-    .mq-tile img { height: 140px; }
+    .mq-head { padding: 0 24px; margin-bottom: 32px; }
+    .mq-title-en { font-size: 48px; letter-spacing: 0.04em; }
+    .mq-title-ja { font-size: 11px; letter-spacing: 0.25em; }
+    .mq-body p { font-size: 13px; line-height: 1.9; letter-spacing: 0.06em; }
+
+    .marquee-wrapper { display: none; }
+
+    .mq-mobile-grid {
+      display: grid;
+      gap: 12px;
+      padding: 0 16px;
+    }
+
+    .mq-mobile-grid[data-layout="hero-with-two"] {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mq-mobile-grid[data-layout="hero-with-two"] .mg-hero {
+      grid-column: 1 / -1;
+    }
+    .mq-mobile-grid[data-layout="hero-with-two"] .mg-hero img {
+      aspect-ratio: 4 / 3;
+    }
+    .mq-mobile-grid[data-layout="hero-with-two"] .mg-sub img {
+      aspect-ratio: 1 / 1;
+    }
+
+    .mq-mobile-grid[data-layout="asymmetric-pair"] {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .mq-mobile-grid[data-layout="asymmetric-pair"] .mg-tall {
+      grid-row: 1 / -1;
+    }
+    .mq-mobile-grid[data-layout="asymmetric-pair"] .mg-tall img {
+      aspect-ratio: 3 / 4;
+      height: 100%;
+    }
+    .mq-mobile-grid[data-layout="asymmetric-pair"] .mg-half img {
+      aspect-ratio: 4 / 3;
+    }
+
+    .mq-mobile-grid[data-layout="single-hero"] .mg-full img {
+      aspect-ratio: 4 / 5;
+    }
+
+    .mg-tile {
+      position: relative;
+      overflow: hidden;
+      margin: 0;
+    }
+    .mg-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .mg-tile figcaption {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      background: rgba(11, 20, 25, 0.72);
+      color: rgba(255, 255, 255, 0.9);
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
   }
 </style>
