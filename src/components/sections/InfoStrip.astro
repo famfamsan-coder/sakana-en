@@ -3,13 +3,25 @@ import { facility } from '../../data/facility';
 ---
 
 <div class="info-strip reveal">
-  <span>営業時間 {facility.hours.open} — {facility.hours.close}</span>
+  <span>
+    <span data-lang-ja>営業時間 {facility.hours.open} — {facility.hours.close}</span>
+    <span data-lang-en>Hours {facility.hours.open} – {facility.hours.close}</span>
+  </span>
   <span class="sep">/</span>
-  <span>火曜定休</span>
+  <span>
+    <span data-lang-ja>火曜定休</span>
+    <span data-lang-en>Closed Tuesdays</span>
+  </span>
   <span class="sep">/</span>
-  <span>駐車場無料 100台</span>
+  <span>
+    <span data-lang-ja>駐車場無料 100台</span>
+    <span data-lang-en>Free Parking · 100 Spaces</span>
+  </span>
   <span class="sep">/</span>
-  <span>{facility.payment}</span>
+  <span>
+    <span data-lang-ja>{facility.payment}</span>
+    <span data-lang-en>{facility.paymentEn}</span>
+  </span>
 </div>
 
 <style is:global>

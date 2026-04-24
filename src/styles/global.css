@@ -30,15 +30,15 @@ html[lang="ja"] address {
   }
 }
 
-[data-lang-ja] { display: inline; }
-[data-lang-en] { display: none; }
-[data-lang-ja-block] { display: block; }
-[data-lang-en-block] { display: none; }
+[data-lang-ja] { display: inline !important; }
+[data-lang-en] { display: none !important; }
+[data-lang-ja-block] { display: block !important; }
+[data-lang-en-block] { display: none !important; }
 
-html[data-lang="en"] [data-lang-ja] { display: none; }
-html[data-lang="en"] [data-lang-en] { display: inline; }
-html[data-lang="en"] [data-lang-ja-block] { display: none; }
-html[data-lang="en"] [data-lang-en-block] { display: block; }
+html[data-lang="en"] [data-lang-ja] { display: none !important; }
+html[data-lang="en"] [data-lang-en] { display: inline !important; }
+html[data-lang="en"] [data-lang-ja-block] { display: none !important; }
+html[data-lang="en"] [data-lang-en-block] { display: block !important; }
 
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.1s ease, transform 1.1s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }

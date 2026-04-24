@@ -8,7 +8,10 @@ import { facility } from '../../data/facility';
       <div class="footer-logo">{facility.name}</div>
       <div class="footer-logo-sub">{facility.nameEn} · {facility.subtitleEn}</div>
     </div>
-    <p class="footer-tagline" set:html={`${facility.tagline.line1}<br/>${facility.tagline.line2}`} />
+    <p class="footer-tagline">
+      <span data-lang-ja set:html={`${facility.tagline.line1}<br/>${facility.tagline.line2}`} />
+      <span data-lang-en set:html={`${facility.tagline.line1En}<br/>${facility.tagline.line2En}`} />
+    </p>
   </div>
 
   <div class="footer-divider"></div>
@@ -17,7 +20,10 @@ import { facility } from '../../data/facility';
     <div class="footer-col">
       <h3 class="footer-heading">
         <span class="en">Access</span>
-        <span class="ja">アクセス</span>
+        <span class="ja">
+          <span data-lang-ja>アクセス</span>
+          <span data-lang-en>Access</span>
+        </span>
       </h3>
       <address class="footer-address" set:html={`${facility.address.postal}<br/>${facility.address.line1}<br/>${facility.address.line2}`} />
       <dl class="footer-contact">
@@ -31,31 +37,62 @@ import { facility } from '../../data/facility';
         </div>
       </dl>
       <a href={facility.address.mapUrl} class="footer-link" target="_blank" rel="noopener noreferrer">
-        Google Mapsで見る →
+        <span data-lang-ja>Google Mapsで見る →</span>
+        <span data-lang-en>View on Google Maps →</span>
       </a>
     </div>
 
     <div class="footer-col">
       <h3 class="footer-heading">
         <span class="en">Hours</span>
-        <span class="ja">営業情報</span>
+        <span class="ja">
+          <span data-lang-ja>営業情報</span>
+          <span data-lang-en>Hours</span>
+        </span>
       </h3>
       <dl class="footer-info">
         <div>
-          <dt>営業時間</dt>
-          <dd>{facility.hours.open} — {facility.hours.close}<br/><small>アクティビティは{facility.hours.activity}</small></dd>
+          <dt>
+            <span data-lang-ja>営業時間</span>
+            <span data-lang-en>Hours</span>
+          </dt>
+          <dd>
+            {facility.hours.open} — {facility.hours.close}<br/>
+            <small>
+              <span data-lang-ja>アクティビティは{facility.hours.activity}</span>
+              <span data-lang-en>Activities: {facility.hours.activity}</span>
+            </small>
+          </dd>
         </div>
         <div>
-          <dt>定休日</dt>
-          <dd>{facility.hours.closed}<br/><small>{facility.hours.closedNote}</small></dd>
+          <dt>
+            <span data-lang-ja>定休日</span>
+            <span data-lang-en>Closed</span>
+          </dt>
+          <dd>
+            <span data-lang-ja>{facility.hours.closed}<br/><small>{facility.hours.closedNote}</small></span>
+            <span data-lang-en>{facility.hours.closedEn}<br/><small>{facility.hours.closedNoteEn}</small></span>
+          </dd>
         </div>
         <div>
-          <dt>駐車場</dt>
-          <dd>{facility.parking}</dd>
+          <dt>
+            <span data-lang-ja>駐車場</span>
+            <span data-lang-en>Parking</span>
+          </dt>
+          <dd>
+            <span data-lang-ja>{facility.parking}</span>
+            <span data-lang-en>{facility.parkingEn}</span>
+          </dd>
         </div>
         <div>
-          <dt>決済</dt>
-          <dd>{facility.payment}</dd>
+          <dt>
+            <span data-lang-ja>決済</span>
+            <span data-lang-en>Payment</span>
+          </dt>
+          <dd>
+            <span data-lang-ja>{facility.payment}</span>
+            <span data-lang-en>{facility.paymentEn}</span>
+          </dd>
         </div>
       </dl>
     </div>
@@ -63,11 +100,19 @@ import { facility } from '../../data/facility';
     <div class="footer-col">
       <h3 class="footer-heading">
         <span class="en">Services</span>
-        <span class="ja">サービス</span>
+        <span class="ja">
+          <span data-lang-ja>サービス</span>
+          <span data-lang-en>Services</span>
+        </span>
       </h3>
       <ul class="footer-menu">
         {facility.footerServices.map((s) => (
-          <li><a href={s.href}>{s.label}</a></li>
+          <li>
+            <a href={s.href}>
+              <span data-lang-ja>{s.label}</span>
+              <span data-lang-en>{s.labelEn}</span>
+            </a>
+          </li>
         ))}
       </ul>
     </div>
@@ -75,7 +120,10 @@ import { facility } from '../../data/facility';
     <div class="footer-col">
       <h3 class="footer-heading">
         <span class="en">Follow</span>
-        <span class="ja">フォロー</span>
+        <span class="ja">
+          <span data-lang-ja>フォロー</span>
+          <span data-lang-en>Follow</span>
+        </span>
       </h3>
       <ul class="footer-social">
         <li>
@@ -90,7 +138,8 @@ import { facility } from '../../data/facility';
 
       <div class="footer-note">
         <p class="footer-note-body">
-          自然災害により川釣り・つかみ取りが中止になることがあります。お電話にてお問い合わせください。
+          <span data-lang-ja>自然災害により川釣り・つかみ取りが中止になることがあります。お電話にてお問い合わせください。</span>
+          <span data-lang-en>Stream fishing and catching may be suspended due to weather. Please call ahead.</span>
         </p>
       </div>
     </div>
@@ -98,12 +147,19 @@ import { facility } from '../../data/facility';
 
   <div class="footer-bottom">
     <div class="footer-copyright">
-      &copy; 2026 日の出町自然休養村 {facility.name}
+      <span data-lang-ja>&copy; 2026 日の出町自然休養村 {facility.name}</span>
+      <span data-lang-en>&copy; 2026 Hinode Natural Resort {facility.nameEn}</span>
     </div>
     <nav class="footer-legal">
-      <a href="#">ご利用規定</a>
+      <a href="#">
+        <span data-lang-ja>ご利用規定</span>
+        <span data-lang-en>Terms of Use</span>
+      </a>
       <span class="sep">/</span>
-      <a href="#">プライバシーポリシー</a>
+      <a href="#">
+        <span data-lang-ja>プライバシーポリシー</span>
+        <span data-lang-en>Privacy Policy</span>
+      </a>
     </nav>
   </div>
 </footer>

@@ -18,14 +18,20 @@ import { facility } from '../../data/facility';
       Access<span class="dot">.</span>
     </h2>
 
-    <p class="access-subtitle reveal">営業情報・アクセス</p>
+    <p class="access-subtitle reveal">
+      <span data-lang-ja>営業情報・アクセス</span>
+      <span data-lang-en>Hours & Access</span>
+    </p>
 
     <div class="access-grid">
 
       <div class="access-info reveal">
         <h3 class="info-heading">
           <span class="en">Location</span>
-          <span class="ja">所在地</span>
+          <span class="ja">
+            <span data-lang-ja>所在地</span>
+            <span data-lang-en>Location</span>
+          </span>
         </h3>
         <address class="info-address">
           {facility.address.postal}<br/>
@@ -46,37 +52,67 @@ import { facility } from '../../data/facility';
            class="map-link"
            target="_blank"
            rel="noopener noreferrer">
-          Google Mapsで見る →
+          <span data-lang-ja>Google Mapsで見る →</span>
+          <span data-lang-en>View on Google Maps →</span>
         </a>
       </div>
 
       <div class="access-hours reveal">
         <h3 class="info-heading">
           <span class="en">Hours</span>
-          <span class="ja">営業時間</span>
+          <span class="ja">
+            <span data-lang-ja>営業時間</span>
+            <span data-lang-en>Hours</span>
+          </span>
         </h3>
         <dl class="info-list">
           <div>
-            <dt>営業時間</dt>
+            <dt>
+              <span data-lang-ja>営業時間</span>
+              <span data-lang-en>Hours</span>
+            </dt>
             <dd>
               {facility.hours.open} — {facility.hours.close}<br/>
-              <small>アクティビティ: {facility.hours.activity}</small>
+              <small>
+                <span data-lang-ja>アクティビティ: {facility.hours.activity}</span>
+                <span data-lang-en>Activities: {facility.hours.activity}</span>
+              </small>
             </dd>
           </div>
           <div>
-            <dt>定休日</dt>
+            <dt>
+              <span data-lang-ja>定休日</span>
+              <span data-lang-en>Closed</span>
+            </dt>
             <dd>
-              {facility.hours.closed}<br/>
-              <small>{facility.hours.closedNote}</small>
+              <span data-lang-ja>{facility.hours.closed}</span>
+              <span data-lang-en>{facility.hours.closedEn}</span>
+              <br/>
+              <small>
+                <span data-lang-ja>{facility.hours.closedNote}</span>
+                <span data-lang-en>{facility.hours.closedNoteEn}</span>
+              </small>
             </dd>
           </div>
           <div>
-            <dt>駐車場</dt>
-            <dd>{facility.parking}</dd>
+            <dt>
+              <span data-lang-ja>駐車場</span>
+              <span data-lang-en>Parking</span>
+            </dt>
+            <dd>
+              <span data-lang-ja>{facility.parking}</span>
+              <span data-lang-en>{facility.parkingEn}</span>
+            </dd>
           </div>
           <div>
-            <dt>お支払い</dt>
-            <dd>{facility.payment}</dd>
+            <dt>
+              <span data-lang-ja>お支払い</span>
+              <span data-lang-en>Payment</span>
+            </dt>
+            <dd>
+              <span data-lang-ja>{facility.payment}</span>
+              <span data-lang-en>{facility.paymentEn}</span>
+            </dd>
           </div>
         </dl>
       </div>
@@ -85,11 +121,12 @@ import { facility } from '../../data/facility';
 
     <div class="access-notes reveal">
       <p>
-        ※自然災害により川釣り・つかみ捕りが中止になる場合があります。<br/>
-        事前にお電話にてお問い合わせください。
+        <span data-lang-ja>※自然災害により川釣り・つかみ捕りが中止になる場合があります。<br/>事前にお電話にてお問い合わせください。</span>
+        <span data-lang-en>*Stream fishing and catching may be suspended due to weather. Please call ahead.</span>
       </p>
       <p>
-        ※4月〜10月の繁忙期は、ペットの同伴をお断りする場合があります。
+        <span data-lang-ja>※4月〜10月の繁忙期は、ペットの同伴をお断りする場合があります。</span>
+        <span data-lang-en>*Pets may be restricted during peak season (April–October).</span>
       </p>
     </div>
 

@@ -64,7 +64,11 @@ import { translations as t } from '../../data/translations';
         </div>
         <div>
           <dt>Hours</dt>
-          <dd set:html={`${facility.hours.open} — ${facility.hours.close}<br/>定休日 ${facility.hours.closed}`} />
+          <dd>
+            {facility.hours.open} — {facility.hours.close}<br/>
+            <span data-lang-ja>定休日 {facility.hours.closed}</span>
+            <span data-lang-en>Closed {facility.hours.closedEn}</span>
+          </dd>
         </div>
         <div>
           <dt>Reservations</dt>
@@ -72,7 +76,10 @@ import { translations as t } from '../../data/translations';
         </div>
         <div>
           <dt>Parking</dt>
-          <dd>{facility.parking}</dd>
+          <dd>
+            <span data-lang-ja>{facility.parking}</span>
+            <span data-lang-en>{facility.parkingEn}</span>
+          </dd>
         </div>
       </dl>
     </div>

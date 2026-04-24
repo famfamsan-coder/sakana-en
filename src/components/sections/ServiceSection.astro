@@ -22,32 +22,54 @@ const { data } = Astro.props;
     </div>
 
     <h2 class="service-title reveal">
-      {data.titleJa}<span class="dot">.</span>
+      {data.displayTitle}<span class="dot">.</span>
     </h2>
 
-    <p class="service-description reveal">{data.description}</p>
+    <p class="service-subtitle reveal">
+      <span data-lang-ja>{data.titleJa}</span>
+      <span data-lang-en>{data.titleJaEn}</span>
+    </p>
+
+    <p class="service-description reveal">
+      <span data-lang-ja>{data.description}</span>
+      <span data-lang-en>{data.descriptionEn}</span>
+    </p>
 
     <div class="service-grid">
 
       <div class="price-block reveal">
         <h3 class="block-heading">
           <span class="en">Pricing</span>
-          <span class="ja">料金</span>
+          <span class="ja">
+            <span data-lang-ja>料金</span>
+            <span data-lang-en>Pricing</span>
+          </span>
         </h3>
         <dl class="price-list">
           {data.prices.map(item => (
             <div class="price-item">
-              <dt>{item.label}</dt>
+              <dt>
+                <span data-lang-ja>{item.label}</span>
+                <span data-lang-en>{item.labelEn}</span>
+              </dt>
               <dd>
-                <span class="price-value">{item.price}</span>
-                {item.note && <span class="price-note">{item.note}</span>}
+                <span class="price-value">
+                  <span data-lang-ja>{item.price}</span>
+                  <span data-lang-en>{item.priceEn}</span>
+                </span>
+                {item.note && (
+                  <span class="price-note">
+                    <span data-lang-ja>{item.note}</span>
+                    <span data-lang-en>{item.noteEn}</span>
+                  </span>
+                )}
               </dd>
             </div>
           ))}
         </dl>
         <p class="price-footnote">
-          ※金額はすべて税込・現金のみ（2026年時点）<br/>
-          ※料金は変動する場合があります
+          <span data-lang-ja>※金額はすべて税込・現金のみ（2026年時点）<br/>※料金は変動する場合があります</span>
+          <span data-lang-en>*All prices include tax, cash only (as of 2026).<br/>*Prices subject to change.</span>
         </p>
       </div>
 
@@ -55,23 +77,41 @@ const { data } = Astro.props;
         <div class="features-block reveal">
           <h3 class="block-heading">
             <span class="en">Features</span>
-            <span class="ja">特徴</span>
+            <span class="ja">
+              <span data-lang-ja>特徴</span>
+              <span data-lang-en>Features</span>
+            </span>
           </h3>
-          <ul class="features-list">
-            {data.features.map(f => <li>{f}</li>)}
-          </ul>
+          <div data-lang-ja-block>
+            <ul class="features-list">
+              {data.features.map(f => <li>{f}</li>)}
+            </ul>
+          </div>
+          {data.featuresEn && (
+            <div data-lang-en-block>
+              <ul class="features-list">
+                {data.featuresEn.map(f => <li>{f}</li>)}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
     </div>
 
     <div class="service-cta reveal">
-      <p class="cta-lead">ご予約・お問い合わせ</p>
+      <p class="cta-lead">
+        <span data-lang-ja>ご予約・お問い合わせ</span>
+        <span data-lang-en>Reservations & Inquiries</span>
+      </p>
       <a href={`tel:${facility.contact.tel}`} class="cta-tel">
         <span class="tel-label">TEL</span>
         <span class="tel-number">{facility.contact.telDisplay}</span>
       </a>
-      <p class="cta-note">営業時間 {facility.hours.open}〜{facility.hours.close} / {facility.hours.closed}</p>
+      <p class="cta-note">
+        <span data-lang-ja>営業時間 {facility.hours.open}〜{facility.hours.close} / {facility.hours.closed}</span>
+        <span data-lang-en>Hours {facility.hours.open} – {facility.hours.close} / Closed {facility.hours.closedEn}</span>
+      </p>
     </div>
 
   </div>
@@ -138,6 +178,15 @@ const { data } = Astro.props;
 
   .service-title .dot {
     color: var(--accent-deep);
+  }
+
+  .service-subtitle {
+    font-family: var(--serif-jp);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: rgba(11, 20, 25, 0.55);
+    margin: 0 0 24px;
   }
 
   .service-description {
@@ -360,6 +409,11 @@ const { data } = Astro.props;
     }
     .service-title {
       font-size: clamp(36px, 10vw, 48px);
+      margin-bottom: 8px;
+    }
+    .service-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.2em;
       margin-bottom: 16px;
     }
     .service-description {

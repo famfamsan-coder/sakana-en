@@ -10,19 +10,21 @@ export interface Facility {
   nameEn: string;
   subtitleJa: string;
   subtitleEn: string;
-  tagline: { line1: string; line2: string };
+  tagline: { line1: string; line2: string; line1En: string; line2En: string };
   heroTagline: string;
   eyebrow: { location: string; river: string; source: string };
   heroTitle: { line1: string; accent: string; line1suffix: string; line2: string };
   address: { postal: string; line1: string; line2: string; mapUrl: string };
   contact: { tel: string; telDisplay: string; fax: string };
-  hours: { open: string; close: string; activity: string; closed: string; closedNote: string };
+  hours: { open: string; close: string; activity: string; closed: string; closedNote: string; closedEn: string; closedNoteEn: string };
   parking: string;
+  parkingEn: string;
   payment: string;
+  paymentEn: string;
   sns: { x: { url: string; handle: string } };
   services: FacilityService[];
   navServices: FacilityService[];
-  footerServices: Array<{ label: string; href: string }>;
+  footerServices: Array<{ label: string; labelEn: string; href: string }>;
 }
 
 export const facility: Facility = {
@@ -33,6 +35,8 @@ export const facility: Facility = {
   tagline: {
     line1: "太陽と、みどりの園。",
     line2: "大自然にあえる場所。",
+    line1En: "Sun & Green Haven.",
+    line2En: "Where nature awaits.",
   },
   heroTagline: "Sun & Green Haven",
   eyebrow: {
@@ -63,9 +67,13 @@ export const facility: Facility = {
     activity: "9:00-16:00",
     closed: "毎週火曜日",
     closedNote: "祝日の場合は翌日",
+    closedEn: "Tuesdays",
+    closedNoteEn: "Following day if Tuesday is a holiday",
   },
   parking: "無料・100台完備",
+  parkingEn: "Free parking, 100 spaces",
   payment: "現金のみ",
+  paymentEn: "Cash only",
   sns: {
     x: { url: "https://x.com/hinode_sakanaen", handle: "@hinode_sakanaen" },
   },
@@ -86,11 +94,11 @@ export const facility: Facility = {
     { id: "contact", label: "お問い合わせ", labelEn: "Contact", href: "tel:042-597-4911" },
   ],
   footerServices: [
-    { label: "渓流釣り", href: "#fishing" },
-    { label: "釣り堀", href: "#fishing" },
-    { label: "つかみ捕り", href: "#fishing" },
-    { label: "バーベキュー", href: "#bbq" },
-    { label: "さかな園食堂", href: "#food" },
-    { label: "宴会・宴席", href: "#enkai" },
+    { label: "渓流釣り", labelEn: "Stream Fishing", href: "#fishing" },
+    { label: "釣り堀", labelEn: "Fishing Pond", href: "#fishing" },
+    { label: "つかみ捕り", labelEn: "Fish Catching", href: "#fishing" },
+    { label: "バーベキュー", labelEn: "Barbecue", href: "#bbq" },
+    { label: "さかな園食堂", labelEn: "Restaurant", href: "#food" },
+    { label: "宴会・宴席", labelEn: "Banquet", href: "#enkai" },
   ],
 };
